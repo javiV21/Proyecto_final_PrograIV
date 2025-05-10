@@ -321,15 +321,22 @@
             <p>Ingresa a tu cuenta para continuar</p>
         </div>
 
-        <form id="loginForm">
+        <form id="loginForm" method="POST" action="{{ route('login.submit') }}">
+            @csrf
             <div class="form-group">
                 <label for="email">Correo electrónico</label>
-                <input type="email" id="email" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="tucorreo@ejemplo.com" value="{{ old('email') }}" required>
+                @if ($errors->has('email'))
+                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                @if ($errors->has('password'))
+                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                @endif
                 <button type="button" class="password-toggle" id="togglePassword">👁️</button>
             </div>
 
@@ -359,8 +366,6 @@
         const loginForm = document.getElementById('loginForm');
 
         loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
