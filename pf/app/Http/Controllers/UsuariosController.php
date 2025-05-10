@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use function Termwind\renderUsing;
 
 
 
@@ -46,22 +47,17 @@ class UsuariosController extends Controller
     }
     public function login(Request $request)
     {
-        // 1) Validar datos entrantes
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'min:8'],
         ]);
 
-        // 2) Intentar autenticar
         if (Auth::attempt($credentials, $request->filled('remember'))) {
-            // Regenerar sesión para evitar fixation
             $request->session()->regenerate();
 
-            // Redirigir al home/dashboard
             return redirect()->intended(route('home'));
         }
 
-        // 3) Si falla, volver con error
         return back()
             ->withErrors([
                 'email' => 'Las credenciales no coinciden.',
@@ -75,25 +71,15 @@ class UsuariosController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('/');
     }
+    /** Show users info */
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function userProfile()
     {
-        //
+        $user = Auth::user();
+        return view('userProfile', compact('user'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      */

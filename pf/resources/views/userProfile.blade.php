@@ -163,8 +163,8 @@
                 <div class="profile-avatar">U</div>
             </div>
             <div>
-                <h1>User_admin</h1>
-                <p>/admin</p>
+                <h1>{{ $user->name }}</h1>
+                <p>/{{ $user->username }}</p>
             </div>
         </header>
 
@@ -178,7 +178,7 @@
                 <div class="karma-label">Comentarios</div>
             </div>
             <div class="karma-card">
-                <div class="karma-value">8 may 2025</div>
+                <div class="karma-value"> {{ $user->created_at->format('d M Y') }}</div>
                 <div class="karma-label">Te uniste a PlotChat</div>
             </div>
         </div>
@@ -205,7 +205,7 @@
                     <span>🎉</span>
                     <div>
                         <h4>Te has unido a PlotChat</h4>
-                        <p>Miembro desde mayo 2025</p>
+                        <p>Miembro desde  {{ $user->created_at->format('d M Y') }}</p>
                     </div>
                 </div>
                 <div class="achievement-item">

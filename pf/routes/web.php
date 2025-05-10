@@ -7,7 +7,6 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/signup', [HomeController::class, 'signup'])->name('signup');
 Route::get('/createPost', [HomeController::class, 'createPost'])->name('createPost');
-Route::get('/userProfile', [HomeController::class, 'userProfile'])->name('userProfile');
 
 // Signup and Login routes
 Route::get('/signup', [UsuariosController::class, 'showSignupForm'])->name('signup');
@@ -21,3 +20,9 @@ Route::get('/home', function() {
 })->middleware('auth')->name('home');
 Route::post('/logout', [UsuariosController::class, 'logout'])
     ->name('logout');
+
+
+// Perfil de usuario (autenticados)
+Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
+    ->middleware('auth')
+    ->name('user.profile');

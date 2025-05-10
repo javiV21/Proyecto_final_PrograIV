@@ -22,8 +22,4 @@ class HomeController extends Controller
         return view('createPost');
     }
 
-    public function userProfile()
-    {
-        return view('userProfile');
-    }
 }
