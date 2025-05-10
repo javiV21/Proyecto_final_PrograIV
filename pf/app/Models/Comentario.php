@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Comentario extends Model
+{
+    protected $fillable = [
+        'usuario_id',
+        'historia_id',
+        'contenido'
+    ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function historia()
+    {
+        return $this->belongsTo(Historia::class);
+    }
+
+    public function reacciones_comentario()
+    {
+        return $this->hasMany(Reaccion_comentario::class);
+    }
+}
