@@ -277,7 +277,10 @@
                 <button class="nav-button active" title="Inicio" id="btnHome">🏠</button>
                 <button class="nav-button create" title="Crear" id="btnCrear">+ Crear</button>
                 <div class="user-dropdown">
-                    <div class="user-avatar" id="userAvatar">U</div>
+                    @auth
+                    <div class="user-avatar" id="userAvatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+</div>
+                    @endauth
                     <div class="user-menu" id="userMenu">
                         <a href="/userProfile" class="user-menu-item">👤 Mi perfil</a>
                         <a href="#" class="user-menu-item">📝 Mis historias</a>

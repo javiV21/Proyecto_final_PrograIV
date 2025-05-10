@@ -71,10 +71,9 @@ class UsuariosController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('/');
+        return redirect()->route('login');
     }
     /** Show users info */
-
     public function userProfile()
     {
         $user = Auth::user();

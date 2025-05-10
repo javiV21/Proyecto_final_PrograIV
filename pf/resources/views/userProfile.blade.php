@@ -160,7 +160,7 @@
     <div class="profile-container">
         <header class="profile-header">
             <div class="avatar-section">
-                <div class="profile-avatar">U</div>
+                <div class="profile-avatar">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
             </div>
             <div>
                 <h1>{{ $user->name }}</h1>

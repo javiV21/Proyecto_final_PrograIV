@@ -18,11 +18,12 @@ Route::post('/login', [UsuariosController::class, 'login'])->name('login.submit'
 Route::get('/home', function() {
     return view('home');
 })->middleware('auth')->name('home');
-Route::post('/logout', [UsuariosController::class, 'logout'])
-    ->name('logout');
 
 
 // Perfil de usuario (autenticados)
 Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
     ->middleware('auth')
     ->name('user.profile');
+
+Route::post('/logout', [UsuariosController::class, 'logout'])
+    ->name('logout');
