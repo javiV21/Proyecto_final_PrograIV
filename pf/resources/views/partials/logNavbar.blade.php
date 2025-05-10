@@ -286,7 +286,10 @@
                         <a href="#" class="user-menu-item">⚙️ Configuración</a>
                         <a href="#" class="user-menu-item">❓ Ayuda</a>
                         <div class="user-menu-divider"></div>
-                        <a href="#" class="user-menu-item">🚪 Cerrar sesión</a>
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button type="submit" class="user-menu-item" style="border: 0%;">🚪 Cerrar sesión</button>
+                        </form>
                     </div>
                 </div>
             </div>

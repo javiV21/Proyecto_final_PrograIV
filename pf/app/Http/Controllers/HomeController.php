@@ -16,10 +16,6 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function signup()
-    {
-        return view('signup');
-    }
 
     public function createPost()
     {

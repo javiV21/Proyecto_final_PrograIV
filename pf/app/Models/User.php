@@ -17,6 +17,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'username',
@@ -43,6 +44,13 @@ class User extends Authenticatable
     public function reacciones_comentario()
     {
         return $this->hasMany(Reaccion_comentario::class);
+    }
+    public function setPasswordAttribute($value)
+    {
+        // Si ya es un hash, lo deja; si no, lo bcrypt
+        $this->attributes['password'] = \Illuminate\Support\Str::startsWith($value, '$2y$')
+            ? $value
+            : bcrypt($value);
     }
 
     /**

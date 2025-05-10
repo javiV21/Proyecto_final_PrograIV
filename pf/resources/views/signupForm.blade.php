@@ -294,7 +294,6 @@
     </style>
 </head>
 <body>
-    <!-- Contenido decorativo del lado izquierdo -->
     <div class="background-container">
         <div class="background-content">
             <h1 style="color: #ff5a1f;">Únete a nuestra comunidad</h1>
@@ -310,7 +309,6 @@
         </div>
     </div>
 
-    <!-- Formulario de registro a la derecha -->
     <div class="register-container">
         <div class="register-header">
             <div class="register-logo">PlotChat</div>
@@ -318,20 +316,44 @@
             <p>Comienza tu viaje literario hoy mismo</p>
         </div>
 
-        <form id="registerForm">
+        <form id="registerForm" method="POST" action="{{ route('signup.submit') }}">
+            @csrf
+            <div class="form-group">
+                <label for="name">Nombre completo</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre" value="{{ old('name') }}" required>
+                @if ($errors->has('name'))
+                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                @endif
+            </div>
             <div class="form-group">
                 <label for="username">Nombre de usuario</label>
-                <input type="text" id="username" class="form-control" placeholder="ejemplo123" required>
+                <input type="text" id="username" name="username" class="form-control" placeholder="ejemplo123" value="{{ old('username') }}" required>
+                @if ($errors->has('username'))
+                    <span class="text-danger">{{ $errors->first('username') }}</span>
+                @endif
+            </div>
+            <div class="forms-group">
+                <label for="edad">Ingrese su edad</label>
+                <input type="number" id="edad" name="edad" class="form-control" placeholder="18" value="{{ old('edad') }}" required>
+                @if ($errors->has('edad'))
+                    <span class="text-danger">{{ $errors->first('edad') }}</span>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="email">Correo electrónico</label>
-                <input type="email" id="email" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="tucorreo@ejemplo.com" value="{{ old('email') }}" required>
+                @if ($errors->has('email'))
+                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                @if ($errors->has('password'))
+                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                @endif
                 <button type="button" class="password-toggle" id="togglePassword">👁️</button>
                 <div class="password-strength">
                     <div class="password-strength-bar" id="passwordStrengthBar"></div>
@@ -349,11 +371,13 @@
 
             <div class="form-group">
                 <label for="confirmPassword">Confirmar contraseña</label>
-                <input type="password" id="confirmPassword" class="form-control" placeholder="••••••••" required>
+                <input type="password" id="confirmPassword" name="password_confirmation" class="form-control" placeholder="••••••••" required>
+                @if ($errors->has('password_confirmation'))
+                    <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                @endif
             </div>
 
             <button type="submit" class="register-btn">Registrarse</button>
-
             <div class="login-link">
                 ¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a>
             </div>
@@ -411,21 +435,16 @@
             }
         });
 
-
-        // Validación del formulario
         const registerForm = document.getElementById('registerForm');
-
         registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
+            const name = document.getElementById('name').value;
             const username = document.getElementById('username').value;
+            const edad = document.getElementById('edad').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const terms = document.getElementById('terms').checked;
-            
-            // Validaciones
-            if (!username || !email || !password || !confirmPassword) {
+
+            if (!name || !username || !edad || !email || !password || !confirmPassword) {
                 alert('Por favor completa todos los campos');
                 return;
             }
@@ -434,10 +453,13 @@
                 alert('Las contraseñas no coinciden');
                 return;
             }
+            if (edad < 18) {
+                alert('Debes tener al menos 18 años para registrarte');
+                return;
+            }
 
         });
 
-        // Animación al cargar
         document.addEventListener('DOMContentLoaded', () => {
             const registerContainer = document.querySelector('.register-container');
             registerContainer.style.opacity = '1';

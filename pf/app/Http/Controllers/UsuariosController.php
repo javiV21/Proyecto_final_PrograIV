@@ -3,15 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;         // o App\Models\Usuario
+use App\Models\User;
 
 
 
 class UsuariosController extends Controller
 {
+    public function showSignupForm()
+    {
+        return view('signupForm');
+    }
+    public function register(Request $request)
+    {
+        $data = $request->validate([
+            'name'     => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'edad'     => 'required|integer|min:0|max:120',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'edad' => $data['edad'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+        if(!$user) {
+            return back()->withErrors(['error' => 'Error al crear el usuario.']);
+        }
+        Auth::login($user);
+        return redirect()->route('home');
+    }
+
 
     public function showLoginForm()
     {
