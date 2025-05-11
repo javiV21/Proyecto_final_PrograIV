@@ -187,6 +187,17 @@
             transition: var(--transition);
         }
 
+        .user-menu-btn {
+            padding: 0.8rem 1rem;
+            background-color: transparent;
+            border: none;
+            color: var(--dark-color);
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+        }
+
         .user-menu-item:hover {
             background-color: var(--gray-light);
         }
@@ -291,7 +302,7 @@
                         <div class="user-menu-divider"></div>
                         <form method="POST" action="/logout">
                             @csrf
-                            <button type="submit" class="user-menu-item" style="border: 0%;">🚪 Cerrar sesión</button>
+                            <button type="submit" class="user-menu-btn">🚪 Cerrar sesión</button>
                         </form>
                     </div>
                 </div>
