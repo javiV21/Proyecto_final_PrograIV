@@ -289,7 +289,7 @@
 
         const createPostButton = document.getElementById('createPost');
         createPostButton.addEventListener('click', () => {
-            window.location.href = '/createPost';
+            window.location.href ='{{ route("createPost") }}';
         });
 
         const viewHomeSavedButton = document.getElementById('viewHomeSaved');

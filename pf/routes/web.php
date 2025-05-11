@@ -1,29 +1,68 @@
 <?php
 
 use App\Http\Controllers\UsuariosController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\HistoriasController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/signup', [HomeController::class, 'signup'])->name('signup');
-Route::get('/createPost', [HomeController::class, 'createPost'])->name('createPost');
+/*
+|----------------------------------
+| Rutas públicas (landing y auth)
+|----------------------------------
+*/
 
-// Signup and Login routes
-Route::get('/signup', [UsuariosController::class, 'showSignupForm'])->name('signup');
-Route::post('/signup', [UsuariosController::class, 'register'])->name('signup.submit');
+// Landing / info general
+Route::get('/', [HomeController::class, 'index'])
+    ->name('index');
 
-Route::get('/login',[UsuariosController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [UsuariosController::class, 'login'])->name('login.submit');
+// Registro
+Route::get('/signup', [UsuariosController::class, 'showSignupForm'])
+    ->name('signup');
+Route::post('/signup', [UsuariosController::class, 'register'])
+    ->name('signup.submit');
 
-Route::get('/home', function() {
-    return view('home');
-})->middleware('auth')->name('home');
+// Login
+Route::get('/login', [UsuariosController::class, 'showLoginForm'])
+    ->name('login');
+Route::post('/login', [UsuariosController::class, 'login'])
+    ->name('login.submit');
 
+/*
+|----------------------------------
+| Rutas protegidas (requieren auth)
+|----------------------------------
+*/
+Route::middleware('auth')->group(function () {
 
-// Perfil de usuario (autenticados)
-Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
-    ->middleware('auth')
-    ->name('user.profile');
+    // Feed de historias
+    Route::get('/home', [HistoriasController::class, 'index'])
+        ->name('home');
 
-Route::post('/logout', [UsuariosController::class, 'logout'])
-    ->name('logout');
+    // Crear historia
+    Route::get('/createPost', [HistoriasController::class, 'create'])
+        ->name('createPost');
+    Route::post('/createPost', [HistoriasController::class, 'store'])
+        ->name('historias.store');
+
+    // Perfil
+    Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
+        ->name('user.profile');
+
+    // Logout
+    Route::post('/logout', [UsuariosController::class, 'logout'])
+        ->name('logout');
+
+    // CRUD Categorías (si las gestionas)
+    Route::resource('categorias', CategoriasController::class)
+        ->except(['show']);
+});
+
+/*
+|----------------------------------
+Nota: Hay un bus que solo se muestran los 2 primeros post mas recientes
+|----------------------------------
+No es falla del doom, sino creo que de la view, o es un bug menor,
+pero no afecta a la funcionalidad como tal, pero ya veremos
+como lo solucionamos
+*/

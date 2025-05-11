@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +14,8 @@
             --border-color: #e0e0e0;
             --bg-color: #ffffff;
             --text-secondary: #6c757d;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.2s ease;
         }
 
@@ -184,7 +185,8 @@
             margin-top: 2rem;
         }
 
-        .btn-draft, .btn-publish {
+        .btn-draft,
+        .btn-publish {
             padding: 0.8rem 2rem;
             border-radius: 8px;
             cursor: pointer;
@@ -247,12 +249,12 @@
                 grid-template-columns: 1fr;
                 margin: 1rem;
             }
-            
+
             .main-editor {
                 border-right: none;
                 padding-right: 0;
             }
-            
+
             .preview-sidebar {
                 border-top: 1px solid var(--border-color);
                 padding-top: 2rem;
@@ -264,95 +266,107 @@
                 padding: 1rem;
                 margin: 0.5rem;
             }
-            
+
             .post-type-selector {
                 grid-template-columns: 1fr;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
-            
-            .btn-draft, .btn-publish {
+
+            .btn-draft,
+            .btn-publish {
                 width: 100%;
                 justify-content: center;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         @include('partials.logNavbar')
     </header>
-    
-    <div class="create-post-container">
-        <div class="main-editor">
-            <h1>Crear Nueva Publicación</h1>
-            
-            <div class="post-type-selector">
-                <button class="post-type-btn active">
-                    <span>📝</span>
-                    Texto
-                </button>
-            </div>
-
-            <select class="community-selector">
-                <option>Seleccionar Categoría</option>
-                <option>😨 Miedo</option>
-                <option>🤫 Confesiones</option>
-                <option>🗣️ Debate</option>
-                <option>💻 Tecnología</option>
-                <option>🎮 Videojuegos</option>
-                <option>📚 Libros</option>
-                <option>🎬 Películas</option>
-                <option>🎵 Música</option>
-                <option>🖼️ Arte</option>
-            </select>
-
-            <input type="text" class="title-input" placeholder="Escribe un título*" maxlength="300">
-            <div class="char-counter"><span id="charCount">0</span>/1000</div>
-
-            <div class="editor-toolbar">
-                <button class="toolbar-btn" data-style="bold" data-tooltip="Negrita (Ctrl+B)">
-                    <strong>B</strong>
-                </button>
-                <button class="toolbar-btn" data-style="italic" data-tooltip="Cursiva (Ctrl+I)">
-                    <em>I</em>
-                </button>
-                <button class="toolbar-btn" data-style="strikethrough" data-tooltip="Tachado">
-                    <s>S</s>
-                </button>
-                <button class="toolbar-btn" data-style="link" data-tooltip="Insertar enlace">
-                    🔗
-                </button>
-                <button class="toolbar-btn" data-style="code" data-tooltip="Código">
-                    {"<>"}
-                </button>
-                <button class="toolbar-btn" data-style="spoiler" data-tooltip="Spoiler">
-                    ⚠️
-                </button>
-            </div>
-
-            <textarea class="post-editor" placeholder="Cuenta tu historia..."></textarea>
-
-            <div class="action-buttons">
-                <button class="btn-draft">
-                    <span>💾</span>
-                    Guardar borrador
-                </button>
-                <button class="btn-publish" disabled>
-                    <span>🚀</span>
-                    Publicar
-                </button>
-            </div>
-        </div>
-
-        <div class="preview-sidebar">
-            <h3 class="preview-title">Vista Previa</h3>
-            <div class="preview-content" id="previewContent">
-            </div>
-        </div>
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
     </div>
+    @endif
+    <form method="POST" action="{{ route('historias.store') }}"" id="createPostForm">
+        @csrf
+        <div class="create-post-container">
+            <div class="main-editor">
+                <h1>Crear Nueva Publicación</h1>
+
+                <div class="post-type-selector">
+                    <button class="post-type-btn active">
+                        <span>📝</span>
+                        Texto
+                    </button>
+                </div>
+
+                <select class="community-selector" name="categoria_id" id="categoria_id" required>
+                    <option value="">Seleccionar Categoría</option>
+                    @foreach($categorias as $cat)
+                        <option
+                        value="{{ $cat->id }}"
+                        {{ old('categoria_id') == $cat->id ? 'selected' : '' }}
+                        >
+                        {{ $cat->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <input type="text" name="titulo" class="title-input" placeholder="Escribe un título*" maxlength="300" value="{{ old('titulo') }}">
+                <div class="char-counter"><span id="charCount">0</span>/100</div>
+
+                <div class="editor-toolbar">
+                    <button class="toolbar-btn" data-style="bold" data-tooltip="Negrita (Ctrl+B)">
+                        <strong>B</strong>
+                    </button>
+                    <button class="toolbar-btn" data-style="italic" data-tooltip="Cursiva (Ctrl+I)">
+                        <em>I</em>
+                    </button>
+                    <button class="toolbar-btn" data-style="strikethrough" data-tooltip="Tachado">
+                        <s>S</s>
+                    </button>
+                    <button class="toolbar-btn" data-style="link" data-tooltip="Insertar enlace">
+                        🔗
+                    </button>
+                    <button class="toolbar-btn" data-style="code" data-tooltip="Código">
+                        {"<>"}
+                    </button>
+                    <button class="toolbar-btn" data-style="spoiler" data-tooltip="Spoiler">
+                        ⚠️
+                    </button>
+                </div>
+
+                <textarea class="post-editor" name="contenido" placeholder="Cuenta tu historia...">{{ old('contenido') }}</textarea>
+
+                <div class="action-buttons">
+                    <button class="btn-draft">
+                        <span>💾</span>
+                        Guardar borrador
+                    </button>
+                    <button class="btn-publish" id="publishBtn">
+                        <span>🚀</span>
+                        Publicar
+                    </button>
+                </div>
+            </div>
+
+            <div class="preview-sidebar">
+                <h3 class="preview-title">Vista Previa</h3>
+                <div class="preview-content" id="previewContent">
+                </div>
+            </div>
+        </div>
+    </form>
 
     <footer>
         @include('partials.footer')
@@ -362,7 +376,7 @@
         // Contador de caracteres
         const titleInput = document.querySelector('.title-input');
         const charCount = document.getElementById('charCount');
-        
+
         titleInput.addEventListener('input', () => {
             charCount.textContent = titleInput.value.length;
         });
@@ -388,12 +402,11 @@
 
         toolbarButtons.forEach(button => {
             button.addEventListener('click', (e) => {
-                e.preventDefault();
                 const style = button.dataset.style;
                 const start = postEditor.selectionStart;
                 const end = postEditor.selectionEnd;
                 const selectedText = postEditor.value.slice(start, end);
-                
+
                 const formats = {
                     bold: ['**', '**'],
                     italic: ['*', '*'],
@@ -433,4 +446,5 @@
         });
     </script>
 </body>
+
 </html>

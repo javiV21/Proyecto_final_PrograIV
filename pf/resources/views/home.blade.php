@@ -123,6 +123,8 @@
         .posts-container {
             max-width: 680px;
             margin: 0 auto;
+            max-height: !important;
+            overflow: visible !important;
         }
 
         .post-placeholder {
@@ -135,6 +137,149 @@
             border-radius: 8px;
             margin-bottom: 1.5rem;
         }
+
+        .posts-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .story-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.1s ease;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            background: var(--gray-light);
+            border-radius: 50%;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .meta-container {
+            line-height: 1.3;
+        }
+
+        .story-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .story-time {
+            font-size: 0.75rem;
+            color: var(--gray-medium);
+            margin: 0;
+        }
+
+        .story-category {
+            background: var(--gray-light);
+            color: var(--gray-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .story-title {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .story-content {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .story-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vote-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--gray-medium);
+            padding: 0.2rem;
+        }
+
+        .vote-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .count {
+            font-size: 0.8rem;
+            color: var(--gray-medium);
+            font-weight: 500;
+        }
+
+        .share-btn {
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .share-btn:hover {
+            background: var(--gray-light);
+        }
+
+        @media (max-width: 768px) {
+            .story-card {
+                padding: 0.75rem;
+            }
+
+            .story-actions {
+                gap: 1rem;
+            }
+
+            .story-title {
+                font-size: 1rem;
+            }
+
+            .story-content {
+                font-size: 0.85rem;
+            }
+        }
+
 
         /* Sidebar derecha */
         .sidebar-right {
@@ -281,7 +426,7 @@
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
                 cursor: pointer;
             }
-            
+
             .sidebar-left.active {
                 transform: translateX(0);
             }
@@ -336,18 +481,47 @@
     <!-- Contenido principal -->
     <main class="main-content">
         <div class="posts-container">
-            <div class="post-placeholder">
-                Área de publicaciones (scroll vertical)
-            </div>
-            <div class="post-placeholder">
-                Las publicaciones aparecerán aquí
-            </div>
-            <div class="post-placeholder">
-                Contenido central scrollable
-            </div>
-            <div class="post-placeholder">
-                Más espacio para publicaciones
-            </div>
+            @forelse($historias as $h)
+                <article class="story-card">
+                    <div class="story-header">
+                        <div class="author-info">
+                            <span
+                                class="user-avatar">{{ strtoupper(substr($h->user->name ?? $h->user->username, 0, 1)) }}</span>
+                            <div class="meta-container">
+                                <p class="story-author">{{ $h->user->username }}</p>
+                                <p class="story-time">{{ $h->created_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                        <span class="story-category">{{ $h->categoria->nombre }}</span>
+                    </div>
+
+                    <div class="story-body">
+                        <h2 class="story-title">{{ $h->titulo }}</h2>
+                        <div class="story-content">
+                            {{ Str::limit($h->contenido, 500) }}
+                        </div>
+                    </div>
+
+                    <div class="story-actions">
+                        <div class="action-item">
+                            <button class="vote-btn">▲</button>
+                            <span class="count">1.2k</span>
+                            <button class="vote-btn">▼</button>
+                        </div>
+                        <div class="action-item">
+                            <span class="comment-icon">💬</span>
+                            <span class="count">348</span>
+                        </div>
+                        <div class="action-item">
+                            <button class="share-btn">📤 Compartir</button>
+                        </div>
+                    </div>
+                </article>
+            @empty
+                <div class="post-placeholder">
+                    No hay historias aún. ¡Sé el primero en publicar!
+                </div>
+            @endforelse
         </div>
     </main>
 

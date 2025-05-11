@@ -301,13 +301,13 @@
 
     <script>
         const btnHome = document.getElementById('btnHome');
-        btnHome.addEventListener('click', function() {
-            window.location.href = '/home';
-        });
-
         const btnCrear = document.getElementById('btnCrear');
+
+        btnHome.addEventListener('click', function() {
+            window.location.href = '{{ route("home") }}';
+        });
         btnCrear.addEventListener('click', function() {
-            window.location.href = '/createPost';
+            window.location.href = '{{ route("createPost") }}';
         });
 
         // Menú desplegable del usuario

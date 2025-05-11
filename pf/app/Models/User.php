@@ -26,9 +26,9 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function historias()
+    public function historia()
     {
-        return $this->hasMany(Historia::class);
+        return $this->hasMany(Historia::class, 'usuario_id');
     }
 
     public function comentarios()
