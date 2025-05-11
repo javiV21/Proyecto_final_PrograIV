@@ -13,15 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Aquí puedes registrar servicios adicionales si es necesario
     }
-
-    /**
-     * Bootstrap any application services.
-     */
     public function boot()
     {
-        // Esto hace que en **todas** las vistas tengas una variable $currentUser
         View::composer('*', function ($view) {
             $view->with('currentUser', Auth::user());
         });
