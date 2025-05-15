@@ -478,6 +478,7 @@
         </div>
     </aside>
 
+
     <!-- Contenido principal -->
     <main class="main-content">
         <div class="posts-container">
