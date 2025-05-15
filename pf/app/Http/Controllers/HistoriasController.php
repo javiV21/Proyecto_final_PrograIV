@@ -14,7 +14,7 @@ class HistoriasController extends Controller
      */
     public function index()
     {
-        $historias = Historia::with(['user','categoria'])->get();
+        $historias = Historia::with(['user','categoria'])->get()->paginate(10);
         return view('home', compact('historias'));
     }
 
