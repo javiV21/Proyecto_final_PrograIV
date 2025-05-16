@@ -4,6 +4,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\HistoriasController;
+use App\Http\Controllers\ComentariosController;
 use Illuminate\Support\Facades\Route;
 
 /*

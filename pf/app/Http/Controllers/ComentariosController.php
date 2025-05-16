@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comentario;
+use App\Models\Historia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ComentariosController extends Controller
 {
@@ -11,7 +15,14 @@ class ComentariosController extends Controller
      */
     public function index()
     {
-        //
+        $comentarios = Comentario::with(['historia', 'user'])->get();
+        return view('viewContent.index', compact('comentarios'));
+    }
+
+    public function create()
+    {
+        $historias = Historia::orderBy('id')->get();
+        return view('viewcContent.create', compact('historias'));
     }
 
     /**
@@ -19,7 +30,14 @@ class ComentariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'historia_id' => 'required|exists:historias,id',
+            'contenido' => 'required|string|max:255',
+        ]);
+        $data['usuario_id'] = Auth::id();
+
+        Comentario::create($data);
+        return redirect()->route('comentarios.index')->with('success', 'Comentario creado con éxito.');
     }
 
     /**
@@ -27,22 +45,9 @@ class ComentariosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $comentario = Comentario::with(['historia', 'user'])->findOrFail($id);
+        return view('viewContent.show', compact('comentario'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }
