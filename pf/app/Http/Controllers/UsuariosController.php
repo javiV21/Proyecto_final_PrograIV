@@ -81,8 +81,9 @@ class UsuariosController extends Controller
         $historias = Historia::with(['categoria'])
             ->where('usuario_id', $user->id)
             ->get();
+        $publicacionesCount = $user->historia()->count();
 
-    return view('userProfile', compact('user', 'historias'));
+    return view('userProfile', compact('user', 'historias', 'publicacionesCount'));
     }
     /**
      * Display the specified resource.

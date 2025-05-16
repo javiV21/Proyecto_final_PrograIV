@@ -304,7 +304,7 @@
 
         <div class="karma-stats">
             <div class="karma-card">
-                <div class="karma-value">0</div>
+                <div class="karma-value">{{ $publicacionesCount }}</div>
                 <div class="karma-label">Publicaciones</div>
             </div>
             <div class="karma-card">
