@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historia;
+use App\Models\Reaccion_historia;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Reacc_historiasController extends Controller
 {
@@ -11,7 +15,8 @@ class Reacc_historiasController extends Controller
      */
     public function index()
     {
-        //
+        $historias = Historia::with(['user'])->get();
+        return view('viewContent.index', compact('historias'));
     }
 
     /**
@@ -19,7 +24,13 @@ class Reacc_historiasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'historia_id' => 'required|exists:historias,id',
+        ]);
+        $data['usuario_id'] = Auth::id();
+
+        Reaccion_historia::create($data);
+        return redirect()->route('historias.index')->with('success', 'Like.');
     }
 
     /**
@@ -27,22 +38,7 @@ class Reacc_historiasController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $historia = Historia::with(['user'])->findOrFail($id);
+        return view('viewContent.show', compact('historia'));
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comentario;
+use App\Models\Reaccion_comentario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Reacc_comentariosController extends Controller
 {
@@ -11,7 +14,8 @@ class Reacc_comentariosController extends Controller
      */
     public function index()
     {
-        //
+        $comentarios = Comentario::with(['historia', 'user'])->get();
+        return view('viewContent.index', compact('comentarios'));
     }
 
     /**
@@ -19,7 +23,13 @@ class Reacc_comentariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'comentario_id' => 'required|exists:historias,id',
+        ]);
+        $data['usuario_id'] = Auth::id();
+
+        Comentario::create($data);
+        return redirect()->route('comentarios.index')->with('success', 'Like.');
     }
 
     /**
