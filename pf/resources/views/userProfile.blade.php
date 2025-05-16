@@ -138,6 +138,139 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
+        .story-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.1s ease;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            background: var(--gray-light);
+            border-radius: 50%;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .meta-container {
+            line-height: 1.3;
+        }
+
+        .story-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .story-time {
+            font-size: 0.75rem;
+            color: var(--gray-medium);
+            margin: 0;
+        }
+
+        .story-category {
+            background: var(--gray-light);
+            color: var(--gray-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .story-title {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .story-content {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .story-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vote-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--gray-medium);
+            padding: 0.2rem;
+        }
+
+        .vote-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .count {
+            font-size: 0.8rem;
+            color: var(--gray-medium);
+            font-weight: 500;
+        }
+
+        .share-btn {
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .share-btn:hover {
+            background: var(--gray-light);
+        }
+
+        @media (max-width: 768px) {
+            .story-card {
+                padding: 0.75rem;
+            }
+
+            .story-actions {
+                gap: 1rem;
+            }
+
+            .story-title {
+                font-size: 1rem;
+            }
+
+            .story-content {
+                font-size: 0.85rem;
+            }
+        }
         @media (max-width: 768px) {
             .profile-header {
                 flex-direction: column;
@@ -186,18 +319,17 @@
         <div class="tabs">
             <button class="tab-button" id="tabPublicaciones">Publicaciones</button>
             <button class="tab-button" id="tabComentarios">Comentarios</button>
-            <button class="tab-button" id="tabGuardados">Guardados</button>
         </div>
 
         <div class="tab-contents" id="tabsPublicaciones">
-            <div class="main-content">
-                <h2>Tu primera publicación</h2>
-                <p>Comienza a compartir tus historias con la comunidad</p>
-                <button
-                    style="background: var(--primary-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;" id="createPost">
-                    Crear Publicación
-                </button>
-            </div>
+                <div class="main-content">
+                    <h2>Tu primera publicación</h2>
+                    <p>Comienza a compartir tus historias con la comunidad</p>
+                    <button
+                        style="background: var(--primary-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;" id="createPost">
+                        Crear Publicación
+                    </button>
+                </div>
 
             <div class="achievements-section">
                 <h3>Info</h3>
@@ -213,34 +345,6 @@
                     <div>
                         <h4>Cuenta protegida</h4>
                         <p>Verificación en dos pasos activada</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-contents" id="tabsGuardados">
-            <div class="main-content">
-                <h2>Guardados</h2>
-                <p>Tus favoritos, siempre a mano</p>
-                <button
-                    style="background: var(--primary-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;" id="viewHomeSaved">
-                    Vea a Inicio
-                </button>
-            </div>
-
-            <div class="achievements-section">
-                <h3>Info</h3>
-                <div class="achievement-item">
-                    <span>🎉</span>
-                    <div>
-                        <h4>Guarda publicaciones</h4>
-                        <p>Guarda tu contenido favorito</p>
-                    </div>
-                </div>
-                <div class="achievement-item">
-                    <span>🗣️</span>
-                    <div>
-                        <h4>Temas que te interesen</h4>
-                        <p>Dale me gusta a las publicaciones</p>
                     </div>
                 </div>
             </div>
@@ -280,10 +384,8 @@
     <script>
         const tabsPost = document.getElementById('tabPublicaciones');
         const tabsComment = document.getElementById('tabComentarios');
-        const tabsSaved = document.getElementById('tabGuardados');
         const tabsPublicaciones = document.getElementById('tabsPublicaciones');
         const tabsComentarios = document.getElementById('tabsComentarios');
-        const tabsGuardados = document.getElementById('tabsGuardados');
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-contents');
 
@@ -292,10 +394,6 @@
             window.location.href ='{{ route("createPost") }}';
         });
 
-        const viewHomeSavedButton = document.getElementById('viewHomeSaved');
-        viewHomeSavedButton.addEventListener('click', () => {
-            window.location.href = '/home';
-        });
         const viewHomeCommentButton = document.getElementById('viewHomeComment');
         viewHomeCommentButton.addEventListener('click', () => {
             window.location.href = '/home';

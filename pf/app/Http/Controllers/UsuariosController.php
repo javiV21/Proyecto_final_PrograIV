@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Historia;
 use function Termwind\renderUsing;
 
 
@@ -77,7 +78,11 @@ class UsuariosController extends Controller
     public function userProfile()
     {
         $user = Auth::user();
-        return view('userProfile', compact('user'));
+        $historias = Historia::with(['categoria'])
+            ->where('usuario_id', $user->id)
+            ->get();
+
+    return view('userProfile', compact('user', 'historias'));
     }
     /**
      * Display the specified resource.

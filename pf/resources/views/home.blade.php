@@ -248,20 +248,6 @@
             font-weight: 500;
         }
 
-        .share-btn {
-            background: none;
-            border: none;
-            font-size: 0.9rem;
-            color: var(--gray-medium);
-            cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-        }
-
-        .share-btn:hover {
-            background: var(--gray-light);
-        }
-
         @media (max-width: 768px) {
             .story-card {
                 padding: 0.75rem;
@@ -512,9 +498,6 @@
                         <div class="action-item">
                             <span class="comment-icon">💬</span>
                             <span class="count">348</span>
-                        </div>
-                        <div class="action-item">
-                            <button class="share-btn">📤 Compartir</button>
                         </div>
                     </div>
                 </article>
