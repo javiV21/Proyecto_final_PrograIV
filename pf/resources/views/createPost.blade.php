@@ -304,7 +304,7 @@
                 <h1>Crear Nueva Publicación</h1>
 
                 <div class="post-type-selector">
-                    <button class="post-type-btn active">
+                    <button type="button" class="post-type-btn active">
                         <span>📝</span>
                         Texto
                     </button>
@@ -326,34 +326,28 @@
                 <div class="char-counter"><span id="charCount">0</span>/100</div>
 
                 <div class="editor-toolbar">
-                    <button class="toolbar-btn" data-style="bold" data-tooltip="Negrita (Ctrl+B)">
+                    <button type="button" class="toolbar-btn" data-style="bold" data-tooltip="Negrita (Ctrl+B)">
                         <strong>B</strong>
                     </button>
-                    <button class="toolbar-btn" data-style="italic" data-tooltip="Cursiva (Ctrl+I)">
+                    <button type="button" class="toolbar-btn" data-style="italic" data-tooltip="Cursiva (Ctrl+I)">
                         <em>I</em>
                     </button>
-                    <button class="toolbar-btn" data-style="strikethrough" data-tooltip="Tachado">
+                    <button type="button" class="toolbar-btn" data-style="strikethrough" data-tooltip="Tachado">
                         <s>S</s>
                     </button>
-                    <button class="toolbar-btn" data-style="link" data-tooltip="Insertar enlace">
+                    <button type="button" class="toolbar-btn" data-style="link" data-tooltip="Insertar enlace">
                         🔗
                     </button>
-                    <button class="toolbar-btn" data-style="code" data-tooltip="Código">
+                    <button type="button" class="toolbar-btn" data-style="code" data-tooltip="Código">
                         {"<>"}
-                    </button>
-                    <button class="toolbar-btn" data-style="spoiler" data-tooltip="Spoiler">
-                        ⚠️
                     </button>
                 </div>
 
                 <textarea class="post-editor" name="contenido" placeholder="Cuenta tu historia...">{{ old('contenido') }}</textarea>
 
                 <div class="action-buttons">
-                    <button class="btn-draft">
-                        <span>💾</span>
-                        Guardar borrador
-                    </button>
-                    <button class="btn-publish" id="publishBtn">
+
+                    <button type="submit" class="btn-publish" id="publishBtn">
                         <span>🚀</span>
                         Publicar
                     </button>
@@ -393,7 +387,6 @@
                 .replace(/~~(.*?)~~/g, '<s>$1</s>')
                 .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
                 .replace(/`(.*?)`/g, '<code>$1</code>')
-                .replace(/>(.*?)</g, '<span class="spoiler">$1</span>');
         };
 
         postEditor.addEventListener('input', () => {
@@ -413,7 +406,6 @@
                     strikethrough: ['~~', '~~'],
                     link: ['[', '](url)'],
                     code: ['`', '`'],
-                    spoiler: ['>!', '!<']
                 };
 
                 if (formats[style]) {

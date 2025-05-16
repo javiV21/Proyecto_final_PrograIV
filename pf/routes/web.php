@@ -57,12 +57,3 @@ Route::middleware('auth')->group(function () {
     Route::resource('categorias', CategoriasController::class)
         ->except(['show']);
 });
-
-/*
-|----------------------------------
-Nota: Hay un bus que solo se muestran los 2 primeros post mas recientes
-|----------------------------------
-No es falla del doom, sino creo que de la view, o es un bug menor,
-pero no afecta a la funcionalidad como tal, pero ya veremos
-como lo solucionamos
-*/
