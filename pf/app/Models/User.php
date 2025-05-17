@@ -33,17 +33,17 @@ class User extends Authenticatable
 
     public function comentarios()
     {
-        return $this->hasMany(Comentario::class);
+        return $this->hasMany(Comentario::class, 'usuario_id');
     }
 
     public function reacciones_historia()
     {
-        return $this->hasMany(Reaccion_historia::class);
+        return $this->hasMany(Reaccion_historia::class, 'usuario_id');
     }
 
     public function reacciones_comentario()
     {
-        return $this->hasMany(Reaccion_comentario::class);
+        return $this->hasMany(Reaccion_comentario::class, 'usuario_id');
     }
     public function setPasswordAttribute($value)
     {
