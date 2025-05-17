@@ -14,12 +14,12 @@ class Comentario extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'usuario_id');
     }
 
     public function historia()
     {
-        return $this->belongsTo(Historia::class);
+        return $this->belongsTo(Historia::class, 'historia_id');
     }
 
     public function reacciones_comentario()

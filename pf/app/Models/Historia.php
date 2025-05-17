@@ -25,11 +25,11 @@ class Historia extends Model
 
     public function comentarios()
     {
-        return $this->hasMany(Comentario::class);
+        return $this->hasMany(Comentario::class, 'historia_id');
     }
 
     public function reacciones_historia()
     {
-        return $this->hasMany(Reaccion_historia::class);
+        return $this->hasMany(Reaccion_historia::class, 'historia_id');
     }
 }
