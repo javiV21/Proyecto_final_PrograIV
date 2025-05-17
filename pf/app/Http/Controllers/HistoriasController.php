@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Historia;
 use App\Models\Categoria;
+use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +18,11 @@ class HistoriasController extends Controller
         // Obtener las historias mas recientes
         // y cargar la relación con el usuario y la categoría
         $historias = Historia::with(['user','categoria'])->latest()->get();
+        // Contar cantidad de comentarios que tiene cada historia
+        foreach ($historias as $historia) {
+            $historia->comentarios_count = Comentario::where('historia_id', $historia->id)->count();
+        }
+        
         return view('home', compact('historias'));
     }
 
@@ -43,9 +49,6 @@ class HistoriasController extends Controller
     }
 
     // Función para ver una histoira en especifico
-    // al dar click en el título
-    // y que muestre el contenido completo
-    // (con comentarios)
     public function show(Historia $historia)
     {
         // Cargar la relación con el usuario y la categoría
@@ -53,7 +56,7 @@ class HistoriasController extends Controller
         // y también los comentarios
         // (si los hay)
         
-        $historia->load(['user', 'categoria']);
+        $historia->load(['user', 'categoria', 'comentarios.user']);
         return view('showHistoria', compact('historia'));
     }
 

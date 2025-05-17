@@ -108,7 +108,7 @@
 
         .tab-contents {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns:2fr 2fr;
             gap: 2rem;
         }
 
@@ -254,6 +254,59 @@
             background: var(--gray-light);
         }
 
+        /* Comentarios */
+        .comments-section {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .comments-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Placeholder de comentarios */
+        .comment-placeholder {
+            text-align: center;
+            color: var(--gray-m);
+            padding: 2rem 0;
+            font-size: 0.9rem;
+        }
+
+        .comment-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comment-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: var(--gray-l);
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+        }
+        .comment-list-item > p {
+        flex: 1 1 100%;
+        margin-top: 0.5rem;
+        }
+
+        .comments-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive Styles */	
+
         @media (max-width: 768px) {
             .story-card {
                 padding: 0.75rem;
@@ -308,7 +361,7 @@
                 <div class="karma-label">Publicaciones</div>
             </div>
             <div class="karma-card">
-                <div class="karma-value">0</div>
+                <div class="karma-value">{{ $comentariosCount }}</div>
                 <div class="karma-label">Comentarios</div>
             </div>
             <div class="karma-card">
@@ -324,7 +377,6 @@
 
         <div class="tab-contents" id="tabsPublicaciones">
             @forelse($historias as $h)
-                <div class="main-content">
                     <article class="story-card">
                         <div class="story-header">
                             <div class="author-info">
@@ -358,7 +410,6 @@
 
                         </div>
                     </article>
-                </div>
             @empty
                 <div class="main-content">
                     <h2>Tu primera publicación</h2>
@@ -389,15 +440,28 @@
             </div>
         </div>
         <div class="tab-contents" id="tabsComentarios">
-            <div class="main-content">
-                <h2>No hay comentarios</h2>
-                <p>Tus opiniones hacen crecer a la comunidad. Participa dejando tus ideas en las publicaciones.</p>
-                <button
-                    style="background: var(--primary-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;"
-                    id="viewHomeComment">
-                    Vea a Inicio
-                </button>
-            </div>
+            @forelse($comentarios as $c)
+                <li class="comment-list-item">
+                    <div class="user-avatar">
+                        {{ strtoupper(substr($c->user->username, 0, 1)) }}
+                    </div>
+                    <div class="meta-info">
+                        <span class="author">{{ $c->user->username }}</span>
+                        <span class="time">{{ $c->created_at->diffForHumans() }}</span>
+                    </div>
+                    <p>{{ $c->contenido }}</p>
+                </li>
+            @empty
+                <div class="main-content">
+                    <h2>No hay comentarios</h2>
+                    <p>Tus opiniones hacen crecer a la comunidad. Participa dejando tus ideas en las publicaciones.</p>
+                    <button
+                        style="background: var(--primary-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;"
+                        id="viewHomeComment">
+                        Vea a Inicio
+                    </button>
+                </div>
+            @endforelse
 
             <div class="achievements-section">
                 <h3>Info</h3>

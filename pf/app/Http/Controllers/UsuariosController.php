@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Historia;
+use App\Models\Comentario;
 use function Termwind\renderUsing;
 
 
@@ -78,12 +79,19 @@ class UsuariosController extends Controller
     public function userProfile()
     {
         $user = Auth::user();
+        // Ver historias creadas por el usuario
         $historias = Historia::with(['categoria'])
             ->where('usuario_id', $user->id)
             ->get();
+        // Ver comentarios hecho por el usuario
+        $comentarios = Comentario::with(['historia'])
+            ->where('usuario_id', $user->id)
+            ->get();
+        // Contar publicaciones y comentarios
         $publicacionesCount = $user->historia()->count();
+        $comentariosCount = Comentario::where('usuario_id', $user->id)->count();
 
-    return view('userProfile', compact('user', 'historias', 'publicacionesCount'));
+    return view('userProfile', compact('user', 'historias', 'comentarios', 'publicacionesCount', 'comentariosCount'));
     }
 
     /**

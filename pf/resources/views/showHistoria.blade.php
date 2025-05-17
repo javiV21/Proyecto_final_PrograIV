@@ -29,7 +29,7 @@
         }
 
 
-        main{
+        main {
             font-family: 'Inter', sans-serif;
             background: var(--gray-l);
             color: var(--dark);
@@ -160,6 +160,94 @@
             padding: 2rem 0;
             font-size: 0.9rem;
         }
+
+        .comment-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comment-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: var(--gray-l);
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+        }
+        .comment-list-item > p {
+        flex: 1 1 100%;
+        margin-top: 0.5rem;
+        }
+
+        .comments-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .create-comment-input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            background: #fff;
+            color: var(--dark);
+        }
+
+        .create-comment-btn {
+            align-self: flex-end;
+            padding: 0.5rem 1.25rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+
+        .create-comment-btn:hover {
+            background: #e55b27;
+        }
+
+        @media screen and (max-width: 768px) {
+            .view-post-container {
+                margin: 0 1rem;
+            }
+
+            .post-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .post-header .back-link {
+                font-size: 0.8rem;
+            }
+
+            .story-title {
+                font-size: 1.2rem;
+            }
+
+            .full-story {
+                font-size: 0.95rem;
+            }
+
+            .comments-section h2 {
+                font-size: 1.1rem;
+            }
+
+        }
     </style>
 </head>
 
@@ -190,10 +278,28 @@
 
             <section class="comments-section">
                 <h2>Comentarios</h2>
+                <form action="{{ route('comentarios.store', $historia) }}" method="POST">
+                    @csrf
+                    <textarea name="contenido" rows="4" placeholder="Escribe tu comentario..."
+                        class="create-comment-input" required></textarea>
+                    <button type="submit" class="create-comment-btn">Comentar</button>
+                </form>
                 @if($historia->comentarios->isEmpty())
                     <p class="comment-placeholder">Sé el primero en comentar esta historia.</p>
                 @else
-                    {{-- aquí iterarías tus comentarios --}}
+                    <ul class="comment-list">
+                        @foreach($historia->comentarios as $comentario)
+                            <li class="comment-list-item">
+                                <div class="user-avatar">
+                                    {{ strtoupper(substr($comentario->user->username, 0, 1)) }}
+                                </div>
+                                <div class="meta-info">
+                                    <span class="author">{{ $comentario->user->username }}</span>
+                                    <span class="time">{{ $comentario->created_at->diffForHumans() }}</span>
+                                </div>
+                                <p>{{ $comentario->contenido }}</p>
+                            </li>
+                        @endforeach
                 @endif
             </section>
         </div>

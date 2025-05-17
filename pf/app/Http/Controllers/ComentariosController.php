@@ -15,8 +15,8 @@ class ComentariosController extends Controller
      */
     public function index()
     {
-        $comentarios = Comentario::with(['historia', 'user'])->get();
-        return view('viewContent.index', compact('comentarios'));
+        /*$comentarios = Comentario::with(['historia', 'user'])->get();
+        return view('showHistoria', compact('comentarios'));*/
     }
 
     public function create()
@@ -28,16 +28,18 @@ class ComentariosController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Historia $historia)
     {
         $data = $request->validate([
-            'historia_id' => 'required|exists:historias,id',
             'contenido' => 'required|string|max:255',
         ]);
         $data['usuario_id'] = Auth::id();
+        $data['historia_id'] = $historia->id;
 
         Comentario::create($data);
-        return redirect()->route('comentarios.index')->with('success', 'Comentario creado con éxito.');
+        return redirect()
+            ->route('historias.show', ['historia' => $historia->id])
+            ->with('success', 'Comentario creado con éxito.');
     }
 
     /**
@@ -45,8 +47,8 @@ class ComentariosController extends Controller
      */
     public function show(string $id)
     {
-        $comentario = Comentario::with(['historia', 'user'])->findOrFail($id);
-        return view('viewContent.show', compact('comentario'));
+        /*$comentario = Comentario::with(['historia', 'user'])->findOrFail($id);
+        return view('viewContent.show', compact('comentario'));*/
     }
 
     

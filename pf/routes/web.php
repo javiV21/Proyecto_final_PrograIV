@@ -49,6 +49,11 @@ Route::middleware('auth')->group(function () {
     // Ver historia
     Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
         ->name('historias.show');
+    // Crear comentario
+    Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
+        ->name('historias.show');
+    Route::post('/historias/{historia}/comentarios', [ComentariosController::class, 'store'])
+        ->name('comentarios.store');
 
     // Perfil
     Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
