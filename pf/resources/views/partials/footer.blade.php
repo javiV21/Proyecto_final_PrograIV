@@ -315,8 +315,6 @@
             <div class="legal-links">
                 <a href="#">Términos de servicio</a>
                 <a href="#">Política de privacidad</a>
-                <a href="#">Cookies</a>
-                <a href="#">Aviso legal</a>
             </div>
         </div>
     </footer>

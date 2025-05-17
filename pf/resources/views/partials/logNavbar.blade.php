@@ -294,8 +294,7 @@
                     @endauth
                     <div class="user-menu" id="userMenu">
                         <a href="/userProfile" class="user-menu-item">👤 Mi perfil</a>
-                        <a href="#" class="user-menu-item">📝 Mis historias</a>
-                        <a href="#" class="user-menu-item">🔔 Notificaciones</a>
+                        <a href="/userProfile" class="user-menu-item">📝 Mis historias</a>
                         <div class="user-menu-divider"></div>
                         <a href="#" class="user-menu-item">⚙️ Configuración</a>
                         <a href="#" class="user-menu-item">❓ Ayuda</a>
