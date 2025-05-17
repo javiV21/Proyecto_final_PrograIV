@@ -345,7 +345,28 @@
         // Acordeón para móviles
         if (window.innerWidth <= 768) {
             const footerHeadings = document.querySelectorAll('.footer-heading');
-            
+            const footerLinks = document.querySelectorAll('.footer-links');
+            footerLinks.forEach(link => {
+                link.style.maxHeight = '0';
+                link.style.overflow = 'hidden';
+            });
+            footerHeadings.forEach(heading => {
+                heading.addEventListener('click', function() {
+                    const links = this.nextElementSibling;
+                    if (links.style.maxHeight) {
+                        links.style.maxHeight = null;
+                    } else {
+                        links.style.maxHeight = links.scrollHeight + 'px';
+                    }
+                });
+            });
+        } else {
+            const footerHeadings = document.querySelectorAll('.footer-heading');
+            const footerLinks = document.querySelectorAll('.footer-links');
+            footerLinks.forEach(link => {
+                link.style.maxHeight = 'none';
+                link.style.overflow = 'visible';
+            });
             footerHeadings.forEach(heading => {
                 heading.addEventListener('click', function() {
                     this.classList.toggle('active');
