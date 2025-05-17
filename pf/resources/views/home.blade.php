@@ -469,7 +469,7 @@
     <main class="main-content">
         <div class="posts-container">
             @forelse($historias as $h)
-                <article class="story-card">
+                <article class="story-card clickable" data-url="{{ route('historias.show', $h) }}">
                     <div class="story-header">
                         <div class="author-info">
                             <span
@@ -574,6 +574,17 @@
     <!-- Menús móviles -->
     <div class="mobile-menu-toggle" id="mobileMenuToggle"></div>
     <script>
+        // Clikear historia y redirigir a la página de historia
+        document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.story-card.clickable').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+            window.location.href = card.dataset.url;
+            });
+        });
+        });
+
+        // Mostrar/ocultar sidebar izquierda en móvil
         document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebarLeft = document.getElementById('sidebarLeft');

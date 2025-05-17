@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/createPost', [HistoriasController::class, 'store'])
         ->name('historias.store');
 
+    // Ver historia
+    Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
+        ->name('historias.show');
+
     // Perfil
     Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
         ->name('user.profile');

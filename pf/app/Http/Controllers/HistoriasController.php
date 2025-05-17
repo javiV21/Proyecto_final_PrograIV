@@ -14,7 +14,9 @@ class HistoriasController extends Controller
      */
     public function index()
     {
-        $historias = Historia::with(['user','categoria'])->get();
+        // Obtener las historias mas recientes
+        // y cargar la relación con el usuario y la categoría
+        $historias = Historia::with(['user','categoria'])->latest()->get();
         return view('home', compact('historias'));
     }
 
@@ -40,13 +42,19 @@ class HistoriasController extends Controller
         return redirect()->route('home')->with('success', 'Historia creada con éxito.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Función para ver una histoira en especifico
+    // al dar click en el título
+    // y que muestre el contenido completo
+    // (con comentarios)
     public function show(Historia $historia)
     {
+        // Cargar la relación con el usuario y la categoría
+        // de la historia sobre la que se hace click
+        // y también los comentarios
+        // (si los hay)
+        
         $historia->load(['user', 'categoria']);
-        return view('home', compact('historia'));
+        return view('showHistoria', compact('historia'));
     }
 
 }
