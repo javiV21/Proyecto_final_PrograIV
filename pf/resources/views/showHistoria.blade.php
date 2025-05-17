@@ -36,6 +36,8 @@
             padding: 1rem;
             display: flex;
             justify-content: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
 
         .view-post-container {

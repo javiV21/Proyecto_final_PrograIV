@@ -574,6 +574,18 @@
     <!-- Menús móviles -->
     <div class="mobile-menu-toggle" id="mobileMenuToggle"></div>
     <script>
+
+        // Animación al pasar el mouse sobre las tarjetas
+        document.querySelectorAll('.story-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.02)';
+                card.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+                card.style.boxShadow = 'none';
+            });
+        });
         // Clikear historia y redirigir a la página de historia
         document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.story-card.clickable').forEach(card => {
