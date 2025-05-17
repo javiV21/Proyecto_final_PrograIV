@@ -445,9 +445,9 @@
         <div class="divider"></div>
 
         <div class="sidebar-section">
-            <h3 class="sidebar-title">Feeds Personalizadas</h3>
+            <h3 class="sidebar-title">Ver categorías</h3>
             <ul class="sidebar-menu">
-                <li><a href="#">Crear una Feed personalizado</a></li>
+                <li><a href="#">Ve y descubre las categorías de contenido disponible</a></li>
             </ul>
         </div>
 
@@ -463,7 +463,6 @@
             </ul>
         </div>
     </aside>
-
 
     <!-- Contenido principal -->
     <main class="main-content">
