@@ -28,7 +28,8 @@
             padding: 0;
         }
 
-        body {
+
+        main{
             font-family: 'Inter', sans-serif;
             background: var(--gray-l);
             color: var(--dark);
@@ -36,18 +37,17 @@
             padding: 1rem;
             display: flex;
             justify-content: center;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
         }
 
         .view-post-container {
-            max-width: 720px;
+            max-width: 820px;
             width: 100%;
             background: #fff;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
-            margin: 2rem 0;
         }
 
         .post-header {
@@ -165,37 +165,39 @@
 
 <body>
     <header>@include('partials.logNavbar')</header>
-    <div class="view-post-container">
-        <header class="post-header">
-            <h1>{{ $historia->titulo }}</h1>
-            <a href="{{ route('home') }}" class="back-link">← Volver</a>
-        </header>
+    <main>
+        <div class="view-post-container">
+            <header class="post-header">
+                <h1>{{ $historia->titulo }}</h1>
+                <a href="{{ route('home') }}" class="back-link">← Volver</a>
+            </header>
 
-        <div class="story-meta">
-            <div class="user-avatar">
-                {{ strtoupper(substr($historia->user->username, 0, 1)) }}
+            <div class="story-meta">
+                <div class="user-avatar">
+                    {{ strtoupper(substr($historia->user->username, 0, 1)) }}
+                </div>
+                <div class="meta-info">
+                    <span class="author">{{ $historia->user->username }}</span>
+                    <span class="time">{{ $historia->created_at->diffForHumans() }}</span>
+                </div>
+                <span class="story-category">{{ $historia->categoria->nombre }}</span>
             </div>
-            <div class="meta-info">
-                <span class="author">{{ $historia->user->username }}</span>
-                <span class="time">{{ $historia->created_at->diffForHumans() }}</span>
-            </div>
-            <span class="story-category">{{ $historia->categoria->nombre }}</span>
+
+            <section class="story-body">
+                <h2 class="story-title">{{ $historia->titulo }}</h2>
+                <div class="full-story">{{ $historia->contenido }}</div>
+            </section>
+
+            <section class="comments-section">
+                <h2>Comentarios</h2>
+                @if($historia->comentarios->isEmpty())
+                    <p class="comment-placeholder">Sé el primero en comentar esta historia.</p>
+                @else
+                    {{-- aquí iterarías tus comentarios --}}
+                @endif
+            </section>
         </div>
-
-        <section class="story-body">
-            <h2 class="story-title">{{ $historia->titulo }}</h2>
-            <div class="full-story">{{ $historia->contenido }}</div>
-        </section>
-
-        <section class="comments-section">
-            <h2>Comentarios</h2>
-            @if($historia->comentarios->isEmpty())
-                <p class="comment-placeholder">Sé el primero en comentar esta historia.</p>
-            @else
-                {{-- aquí iterarías tus comentarios --}}
-            @endif
-        </section>
-    </div>
+    </main>
     <footer>
         @include('partials.footer')
     </footer>
