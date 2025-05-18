@@ -303,7 +303,8 @@
             <div class="footer-newsletter">
                 <h3 class="footer-heading">Newsletter</h3>
                 <p>Suscríbete para recibir las mejores historias y actualizaciones directamente en tu correo.</p>
-                <form class="newsletter-form">
+                <form class="newsletter-form" action="{{ route('newsletter.subscribe') }}" method="POST">
+                    @csrf
                     <input type="email" class="newsletter-input" placeholder="tu@email.com" required>
                     <button type="submit" class="newsletter-btn">Suscribirse</button>
                 </form>
@@ -373,20 +374,6 @@
         }
 
         const newsletterForm = document.querySelector('.newsletter-form');
-        
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input').value;
-            
-            if (!email.includes('@')) {
-                alert('Por favor ingresa un email válido');
-                return;
-            }
-            
-            // Simulación de envío exitoso
-            this.querySelector('input').value = '';
-            alert('¡Gracias por suscribirte!');
-        });
 
         // Efecto hover mejorado para enlaces
         document.querySelectorAll('.footer-links a').forEach(link => {

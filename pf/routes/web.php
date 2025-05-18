@@ -7,6 +7,14 @@ use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\ComentariosController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsletterController;
+
+//----------------------------------
+// Rutas para el envío de correos
+//----------------------------------
+// Envío de correos para el newsletter
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
+    ->name('newsletter.subscribe');
 
 /*
 |----------------------------------
