@@ -82,6 +82,7 @@ class UsuariosController extends Controller
         // Ver historias creadas por el usuario
         $historias = Historia::with(['categoria'])
             ->where('usuario_id', $user->id)
+            ->withSum('reacciones_historia as reacciones_count', 'reaccion') // crea $h->reacciones_count
             ->get();
         // Ver comentarios hecho por el usuario
         $comentarios = Comentario::with(['historia'])
@@ -90,6 +91,7 @@ class UsuariosController extends Controller
         // Contar publicaciones y comentarios
         $publicacionesCount = $user->historia()->count();
         $comentariosCount = Comentario::where('usuario_id', $user->id)->count();
+        // Contar la suma de reacciones
 
     return view('userProfile', compact('user', 'historias', 'comentarios', 'publicacionesCount', 'comentariosCount'));
     }

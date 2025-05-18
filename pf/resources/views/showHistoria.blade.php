@@ -142,6 +142,39 @@
             color: var(--gray-d);
         }
 
+        .story-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vote-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--gray-medium);
+            padding: 0.2rem;
+        }
+
+        .vote-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .count {
+            font-size: 0.8rem;
+            color: var(--gray-medium);
+            font-weight: 500;
+        }
+
         .comments-section {
             padding: 1.5rem;
             border-top: 1px solid var(--border);
@@ -180,9 +213,10 @@
             box-shadow: var(--shadow);
             flex-wrap: wrap;
         }
-        .comment-list-item > p {
-        flex: 1 1 100%;
-        margin-top: 0.5rem;
+
+        .comment-list-item>p {
+            flex: 1 1 100%;
+            margin-top: 0.5rem;
         }
 
         .comments-section form {
@@ -274,6 +308,27 @@
             <section class="story-body">
                 <h2 class="story-title">{{ $historia->titulo }}</h2>
                 <div class="full-story">{{ $historia->contenido }}</div>
+                <div class="story-actions">
+                    <div class="action-item">
+                        <form method="POST" action="{{ route('reacc_historias.store') }}">
+                            @csrf
+                            <input type="hidden" name="historia_id" value="{{ $historia->id }}">
+                            <input type="hidden" name="reaccion" value="1">
+                            <button class="vote-btn" id="positive-vote">▲</button>
+                        </form>
+                        <span class="count">{{ $historia->reacciones_count }}</span>
+                        <form method="POST" action="{{ route('reacc_historias.store') }}">
+                            @csrf
+                            <input type="hidden" name="historia_id" value="{{ $historia->id }}">
+                            <input type="hidden" name="reaccion" value="-1">
+                            <button class="vote-btn" id="negative-vote">▼</button>
+                        </form>
+                    </div>
+                    <div class="action-item">
+                        <span class="comment-icon">💬</span>
+                        <span class="count">{{ $historia->comentarios_count }} comentarios</span>
+                    </div>
+                </div>
             </section>
 
             <section class="comments-section">

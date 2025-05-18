@@ -400,7 +400,7 @@
                         <div class="story-actions">
                             <div class="action-item">
                                 <button class="vote-btn">▲</button>
-                                <span class="count">1.2k</span>
+                                <span class="count">{{ $h->reacciones_count }}</span>
                                 <button class="vote-btn">▼</button>
                             </div>
                             <div class="action-item">

@@ -55,6 +55,8 @@ class HistoriasController extends Controller
         // (si los hay)
         
         $historia->load(['user', 'categoria', 'comentarios.user']);
+        $historia->loadCount('comentarios');
+        $historia->loadSum('reacciones_historia as reacciones_count', 'reaccion');
         return view('showHistoria', compact('historia'));
     }
 
