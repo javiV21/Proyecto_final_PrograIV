@@ -305,7 +305,7 @@
                 <p>Suscríbete para recibir las mejores historias y actualizaciones directamente en tu correo.</p>
                 <form class="newsletter-form" action="{{ route('newsletter.subscribe') }}" method="POST">
                     @csrf
-                    <input type="email" class="newsletter-input" placeholder="tu@email.com" required>
+                    <input type="email" class="newsletter-input" placeholder="tu@email.com" name="email" required>
                     <button type="submit" class="newsletter-btn">Suscribirse</button>
                 </form>
             </div>
