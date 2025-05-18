@@ -296,7 +296,7 @@
                         <a href="/userProfile" class="user-menu-item">👤 Mi perfil</a>
                         <a href="/userProfile" class="user-menu-item">📝 Mis historias</a>
                         <div class="user-menu-divider"></div>
-                        <a href="#" class="user-menu-item">⚙️ Configuración</a>
+                        <a href="/editForm" class="user-menu-item">⚙️ Configuración</a>
                         <a href="/policies" class="user-menu-item">❓ Ayuda</a>
                         <div class="user-menu-divider"></div>
                         <form method="POST" action="/logout">

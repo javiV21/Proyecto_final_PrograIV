@@ -94,19 +94,51 @@ class UsuariosController extends Controller
     return view('userProfile', compact('user', 'historias', 'comentarios', 'publicacionesCount', 'comentariosCount'));
     }
 
+    public function edit()
+    {
+        $user = Auth::user();
+        return view('configProfile', compact('user'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'name'     => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'edad'     => 'required|integer|min:0|max:120',
+            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        // Si la contraseña es nula, no la actualiza
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+        // que solicite la contraseña actual
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->input('current_password'), $user->password)) {
+                return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+            }
+        }
+        
+        $user->update($data);
+
+        return redirect()->route('user.profile')->with('status', 'Perfil actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
-        //
+        // Eliminar usuario
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('login')->with('success', 'Usuario eliminado correctamente.');
     }
 }

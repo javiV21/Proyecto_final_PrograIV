@@ -63,6 +63,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
         ->name('user.profile');
 
+    // Formulario de edición de perfil
+    Route::get('/editForm', [UsuariosController::class, 'edit'])
+        ->name('user.editForm');
+    
+    // Actualizar perfil
+    Route::put('/editProfile/{id}', [UsuariosController::class, 'update'])->name('user.update');   
+
+    // Eliminar perfil
+    Route::delete('/editProfile/{id}', [UsuariosController::class, 'destroy'])->name('user.destroy');
+    
     // Logout
     Route::post('/logout', [UsuariosController::class, 'logout'])
         ->name('logout');
