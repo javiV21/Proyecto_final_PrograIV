@@ -436,9 +436,7 @@
         <div class="sidebar-section">
             <h3 class="sidebar-title">Principal</h3>
             <ul class="sidebar-menu">
-                <li><a href="#" class="active">Popular</a></li>
-                <li><a href="#">Explorar</a></li>
-                <li><a href="#">Todos</a></li>
+                <li><a href="/home" class="active">Popular</a></li>
             </ul>
         </div>
 
@@ -456,7 +454,7 @@
         <div class="sidebar-section">
             <h3 class="sidebar-title">Comunidades</h3>
             <ul class="sidebar-menu">
-                <li><a href="#">Crear una comunidad</a></li>
+                <li><a href="/createPost">Crear una historia</a></li>
                 <li><a href="#">/AskPlotchat</a></li>
                 <li><a href="#">/confession</a></li>
                 <li><a href="#">/esConversacion</a></li>
@@ -534,25 +532,6 @@
             <div class="post-stats">
                 <span>24 comentarios</span>
                 <span>239 votos</span>
-                <span>Compartir</span>
-            </div>
-        </div>
-
-        <div class="community-card">
-            <div class="community-header">
-                <span>!</span>
-                <span class="community-name">NecesitoDesahogarme</span>
-            </div>
-            <div class="community-meta">hace 3 d</div>
-            <button class="join-btn">Unirse</button>
-            <div class="community-meta">Similar a /TengoMiedoDePreguntar</div>
-            <div class="community-description">
-                Me la mande en el chat del trabajo y quiero morir. Tenemos un chat en donde estamos todos los del
-                sector...
-            </div>
-            <div class="post-stats">
-                <span>14 mil comentarios</span>
-                <span>197 votos</span>
                 <span>Compartir</span>
             </div>
         </div>
