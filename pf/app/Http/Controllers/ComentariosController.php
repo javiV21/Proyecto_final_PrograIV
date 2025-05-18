@@ -51,5 +51,32 @@ class ComentariosController extends Controller
         return view('showHistoria', compact('comentario'));
     }
 
-    
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Comentario $comentario)
+    {
+        return view('editComentarios', compact('comentario'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Comentario $comentario)
+    {
+        $data = $request->validate(['contenido' => 'required|string|max:255']);
+        $comentario->update($data);
+
+        return redirect()->route('user.profile')->with('success', 'Comentario actualizado con éxito.');
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Comentario $comentario)
+    {
+        $comentario->delete();
+
+        return redirect()->route('user.profile')
+                        ->with('success', 'Comentario eliminado con éxito.');
+    }    
 }

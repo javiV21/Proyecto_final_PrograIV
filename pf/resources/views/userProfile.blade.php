@@ -442,7 +442,8 @@
         </div>
         <div class="tab-contents" id="tabsComentarios">
             @forelse($comentarios as $c)
-                <li class="comment-list-item">
+                <li class="comment-list-item clickable" data-url="{{ route('comentarios.edit', ['comentario' => $c->id]) }}">
+
                     <div class="user-avatar">
                         {{ strtoupper(substr($c->user->username, 0, 1)) }}
                     </div>
@@ -518,6 +519,23 @@
         document.querySelectorAll('.story-card.clickable').forEach(card => {
             card.addEventListener('click', () => {
                 window.location.href = card.dataset.url;
+            });
+        });
+
+        // Animación al pasar el mouse sobre los comentarios
+        document.querySelectorAll('.comment-list-item').forEach(comment => {
+            comment.addEventListener('mouseenter', () => {
+                comment.style.transform = 'scale(1.02)';
+                comment.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            });
+            comment.addEventListener('mouseleave', () => {
+                comment.style.transform = 'scale(1)';
+                comment.style.boxShadow = 'none';
+            });
+        });
+        document.querySelectorAll('.comment-list-item.clickable').forEach(comment => {
+            comment.addEventListener('click', () => {
+                window.location.href = comment.dataset.url;
             });
         });
 

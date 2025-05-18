@@ -44,7 +44,11 @@ Route::middleware('auth')->group(function () {
     // Feed de historias
     Route::get('/home', [HistoriasController::class, 'index'])
         ->name('home');
-
+    /*
+    |----------------------------------
+    | CRUD de historias
+    |----------------------------------
+    */
     // Crear historia
     Route::get('/createPost', [HistoriasController::class, 'create'])
         ->name('createPost');
@@ -58,12 +62,6 @@ Route::middleware('auth')->group(function () {
     // Votar historia
     Route::post('/votar', [Reacc_historiasController::class, 'store'])->name('reacc_historias.store');
 
-    // Crear comentario
-    Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
-        ->name('historias.show');
-    Route::post('/historias/{historia}/comentarios', [ComentariosController::class, 'store'])
-        ->name('comentarios.store');
-
     // Editar historia
     Route::get('/historias/{historia}/edit', [HistoriasController::class, 'edit'])
         ->name('historias.edit');
@@ -74,6 +72,25 @@ Route::middleware('auth')->group(function () {
     Route::delete('/historias/{historia}', [HistoriasController::class, 'destroy'])
         ->name('historias.destroy');
 
+    /*
+    |----------------------------------
+    | CRUD de comentarios
+    |----------------------------------
+    */
+    // Crear comentario
+    Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
+        ->name('historias.show');
+    Route::post('/historias/{historia}/comentarios', [ComentariosController::class, 'store'])
+        ->name('comentarios.store');
+    // Editar comentario
+    Route::get('/comentarios/{comentario}/edit', [ComentariosController::class, 'edit'])
+        ->name('comentarios.edit');
+    Route::put('/comentarios/{comentario}', [ComentariosController::class, 'update'])
+        ->name('comentarios.update');
+    // Eliminar comentario
+    Route::delete('/comentarios/{comentario}', [ComentariosController::class, 'destroy'])
+        ->name('comentarios.destroy');
+    
     /*
     |----------------------------------
     | CRUD de perfil
