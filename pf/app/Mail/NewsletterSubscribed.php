@@ -21,34 +21,9 @@ class NewsletterSubscribed extends Mailable
         //
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Newsletter Subscribed',
-        );
+        return $this->subject('Bienvenido a PlotChat Newsletters')
+                    ->view('emails.newsletter'); // usa vista HTML normal
     }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            markdown: 'emails.newsletter',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
-    }
-
 }

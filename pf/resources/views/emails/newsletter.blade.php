@@ -1,4 +1,3 @@
-@component('mail::message')
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -93,4 +92,3 @@
     </table>
 </body>
 </html>
-@endcomponent

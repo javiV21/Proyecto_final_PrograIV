@@ -7,7 +7,7 @@ use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\ComentariosController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\NewsletterController; // Asegúrate de que solo esté una vez
 
 //----------------------------------
 // Rutas para el envío de correos

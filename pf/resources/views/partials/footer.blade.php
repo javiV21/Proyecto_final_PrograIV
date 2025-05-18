@@ -309,6 +309,9 @@
                     <button type="submit" class="newsletter-btn">Suscribirse</button>
                 </form>
             </div>
+            @if(session('success'))
+                <p>{{ session('success') }}</p>
+            @endif
         </div>
 
         <div class="footer-bottom">
