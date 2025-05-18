@@ -64,17 +64,32 @@ Route::middleware('auth')->group(function () {
     Route::post('/historias/{historia}/comentarios', [ComentariosController::class, 'store'])
         ->name('comentarios.store');
 
+    // Editar historia
+    Route::get('/historias/{historia}/edit', [HistoriasController::class, 'edit'])
+        ->name('historias.edit');
+    Route::put('/historias/{historia}', [HistoriasController::class, 'update'])
+        ->name('historias.update');
+
+    // Eliminar historia
+    Route::delete('/historias/{historia}', [HistoriasController::class, 'destroy'])
+        ->name('historias.destroy');
+
+    /*
+    |----------------------------------
+    | CRUD de perfil
+    |----------------------------------
+    */
     // Perfil
     Route::get('/userProfile', [UsuariosController::class, 'userProfile'])
         ->name('user.profile');
 
+    
     // Formulario de edición de perfil
     Route::get('/editForm', [UsuariosController::class, 'edit'])
         ->name('user.editForm');
     
     // Actualizar perfil
     Route::put('/editProfile/{id}', [UsuariosController::class, 'update'])->name('user.update');   
-
     // Eliminar perfil
     Route::delete('/editProfile/{id}', [UsuariosController::class, 'destroy'])->name('user.destroy');
     
@@ -82,7 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [UsuariosController::class, 'logout'])
         ->name('logout');
 
-    // CRUD Categorías (si las gestionas)
+    // CRUD Categorías
     Route::resource('categorias', CategoriasController::class)
         ->except(['show']);
 });

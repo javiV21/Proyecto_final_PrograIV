@@ -60,4 +60,38 @@ class HistoriasController extends Controller
         return view('showHistoria', compact('historia'));
     }
 
+    // Editar una historia
+    public function edit(Historia $historia)
+    {
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('editHistoria', compact('historia', 'categorias'));
+    }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Historia $historia)
+    {
+        $data = $request->validate([
+            'categoria_id' => 'required|exists:categorias,id',
+            'titulo' => 'required|string|max:255',
+            'contenido' => 'required|string',
+        ]);
+        $historia->update($data);
+        return redirect()->route('home')->with('success', 'Historia actualizada con éxito.');
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Historia $historia)
+    {
+        // Eliminar los comentarios relacionados
+        Comentario::where('historia_id', $historia->id)->delete();
+        // Eliminar las reacciones relacionadas
+        $historia->reacciones_historia()->delete();
+        // Eliminar la historia
+        $historia->delete();
+        // Redirigir a la página de inicio con un mensaje de éxito
+        return redirect()->route('home')->with('success', 'Historia eliminada con éxito.');
+    }
+
 }

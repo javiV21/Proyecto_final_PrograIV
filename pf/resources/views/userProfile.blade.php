@@ -108,7 +108,7 @@
 
         .tab-contents {
             display: grid;
-            grid-template-columns:2fr 2fr;
+            grid-template-columns: 2fr 2fr;
             gap: 2rem;
         }
 
@@ -293,9 +293,10 @@
             box-shadow: var(--shadow);
             flex-wrap: wrap;
         }
-        .comment-list-item > p {
-        flex: 1 1 100%;
-        margin-top: 0.5rem;
+
+        .comment-list-item>p {
+            flex: 1 1 100%;
+            margin-top: 0.5rem;
         }
 
         .comments-section form {
@@ -305,7 +306,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Responsive Styles */	
+        /* Responsive Styles */
 
         @media (max-width: 768px) {
             .story-card {
@@ -377,39 +378,39 @@
 
         <div class="tab-contents" id="tabsPublicaciones">
             @forelse($historias as $h)
-                    <article class="story-card">
-                        <div class="story-header">
-                            <div class="author-info">
-                                <span
-                                    class="user-avatar">{{ strtoupper(substr($h->user->name ?? $h->user->username, 0, 1)) }}</span>
-                                <div class="meta-container">
-                                    <p class="story-author">{{ $h->user->username }}</p>
-                                    <p class="story-time">{{ $h->created_at->diffForHumans() }}</p>
-                                </div>
-                            </div>
-                            <span class="story-category">{{ $h->categoria->nombre }}</span>
-                        </div>
-
-                        <div class="story-body">
-                            <h2 class="story-title">{{ $h->titulo }}</h2>
-                            <div class="story-content">
-                                {{ Str::limit($h->contenido, 500) }}
+                <article class="story-card clickable" data-url="{{ route('historias.edit', $h) }}">
+                    <div class="story-header">
+                        <div class="author-info">
+                            <span
+                                class="user-avatar">{{ strtoupper(substr($h->user->name ?? $h->user->username, 0, 1)) }}</span>
+                            <div class="meta-container">
+                                <p class="story-author">{{ $h->user->username }}</p>
+                                <p class="story-time">{{ $h->created_at->diffForHumans() }}</p>
                             </div>
                         </div>
+                        <span class="story-category">{{ $h->categoria->nombre }}</span>
+                    </div>
 
-                        <div class="story-actions">
-                            <div class="action-item">
-                                <button class="vote-btn">▲</button>
-                                <span class="count">{{ $h->reacciones_count }}</span>
-                                <button class="vote-btn">▼</button>
-                            </div>
-                            <div class="action-item">
-                                <span class="comment-icon">💬</span>
-                                <span class="count">{{ $comentariosCount }}</span>
-                            </div>
-
+                    <div class="story-body">
+                        <h2 class="story-title">{{ $h->titulo }}</h2>
+                        <div class="story-content">
+                            {{ Str::limit($h->contenido, 500) }}
                         </div>
-                    </article>
+                    </div>
+
+                    <div class="story-actions">
+                        <div class="action-item">
+                            <button class="vote-btn">▲</button>
+                            <span class="count">{{ $h->reacciones_count }}</span>
+                            <button class="vote-btn">▼</button>
+                        </div>
+                        <div class="action-item">
+                            <span class="comment-icon">💬</span>
+                            <span class="count">{{ $comentariosCount }}</span>
+                        </div>
+
+                    </div>
+                </article>
             @empty
                 <div class="main-content">
                     <h2>Tu primera publicación</h2>
@@ -503,10 +504,27 @@
             window.location.href = '/home';
         });
 
+        // Animación al pasar el mouse sobre las tarjetas
+        document.querySelectorAll('.story-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.02)';
+                card.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+                card.style.boxShadow = 'none';
+            });
+        });
+        document.querySelectorAll('.story-card.clickable').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = card.dataset.url;
+            });
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
             // Ocultar todas las tabs primero
             tabContents.forEach(content => content.style.display = 'none');
-            
+
             // Mostrar solo la primera tab
             tabsPublicaciones.style.display = 'grid';
             tabsPost.classList.add('active');
@@ -515,7 +533,7 @@
             // Remover clases activas
             tabButtons.forEach(button => button.classList.remove('active'));
             tabContents.forEach(content => content.style.display = 'none');
-            
+
             // Activar tab seleccionada
             activeTab.classList.add('active');
             const targetTabId = activeTab.id.replace('tab', 'tabs');
