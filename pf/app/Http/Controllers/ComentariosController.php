@@ -47,8 +47,8 @@ class ComentariosController extends Controller
      */
     public function show(string $id)
     {
-        /*$comentario = Comentario::with(['historia', 'user'])->findOrFail($id);
-        return view('viewContent.show', compact('comentario'));*/
+        $comentario = Comentario::with(['historia', 'user'])->findOrFail($id);
+        return view('showHistoria', compact('comentario'));
     }
 
     

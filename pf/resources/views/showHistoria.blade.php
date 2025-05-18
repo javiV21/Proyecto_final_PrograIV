@@ -262,7 +262,7 @@
 
             <div class="story-meta">
                 <div class="user-avatar">
-                    {{ strtoupper(substr($historia->user->username, 0, 1)) }}
+                    {{ strtoupper(substr($historia->user->name ?? $historia->user->username, 0, 1)) }}
                 </div>
                 <div class="meta-info">
                     <span class="author">{{ $historia->user->username }}</span>
