@@ -127,7 +127,7 @@ class UsuariosController extends Controller
                 return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
             }
         }
-        
+
         $user->update($data);
 
         return redirect()->route('user.profile')->with('status', 'Perfil actualizado correctamente.');
@@ -137,8 +137,19 @@ class UsuariosController extends Controller
     public function destroy(string $id)
     {
         // Eliminar usuario
+        
         $user = User::findOrFail($id);
         $user->delete();
+        // Eliminar historias y comentarios del usuario
+        Historia::where('usuario_id', $user->id)->delete();
+        Comentario::where('usuario_id', $user->id)->delete();
+        // Eliminar sesión
+        Auth::logout();
+        // Invalidar sesión
+        session()->invalidate();
+        session()->regenerateToken();
+        // Redirigir a la página de inicio de sesión
+        // y mostrar mensaje de éxito
         return redirect()->route('login')->with('success', 'Usuario eliminado correctamente.');
     }
 }

@@ -25,12 +25,7 @@
         }
 
         /* Reset y base */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
+        *, *::before, *::after { box-sizing: border-box; }
         body {
             margin: 0;
             font: var(--font-base)/1.6 var(--font-family);
@@ -40,12 +35,7 @@
             display: flex;
             flex-direction: column;
         }
-
-        header,
-        footer {
-            flex-shrink: 0;
-        }
-
+        header, footer { flex-shrink: 0; }
         main {
             flex: 1;
             padding: var(--spacing-lg);
@@ -58,7 +48,7 @@
             background: var(--color-surface);
             padding: var(--spacing-lg);
             border-radius: var(--radius);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 600px;
             display: flex;
@@ -73,34 +63,25 @@
             color: var(--color-secondary);
         }
 
-        form {
-            display: block;
+        form { display: block; }
+
+        /* A partir de tablets (>=600px), 2 columnas */
+        @media(min-width: 600px) {
+            .edit-grid { grid-template-columns: 1fr; }
         }
 
-        .edit-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-md);
-        }
-
-        /* En pantallas pequeñas, una columna */
-        @media(max-width: 599px) {
-            .edit-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        /* Clase para ocupar todo el ancho en grid */
+        .full-width { grid-column: 1 / -1; }
 
         .form-group {
             display: flex;
             flex-direction: column;
         }
-
         label {
             margin-bottom: var(--spacing-sm);
             font-weight: 600;
             color: var(--color-text-muted);
         }
-
         input {
             padding: var(--spacing-sm);
             border: 1px solid #ddd;
@@ -108,22 +89,13 @@
             font: inherit;
             transition: border-color var(--transition);
         }
-
         input:focus {
             outline: none;
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.2);
         }
-
-        .hint {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-        }
-
-        .error {
-            font-size: 0.875rem;
-            color: #dc3545;
-        }
+        .hint { font-size: 0.875rem; color: var(--color-text-muted); }
+        .error { font-size: 0.875rem; color: #dc3545; }
 
         button {
             padding: var(--spacing-md);
@@ -133,26 +105,18 @@
             cursor: pointer;
             transition: background var(--transition);
         }
-
         .btn-primary {
             background: var(--color-primary);
             color: #fff;
             width: 100%;
         }
-
-        .btn-primary:hover {
-            background: var(--color-primary-hover);
-        }
-
+        .btn-primary:hover { background: var(--color-primary-hover); }
         .btn-delete {
             background: #dc3545;
             color: #fff;
             width: 100%;
         }
-
-        .btn-delete:hover {
-            background: #c82333;
-        }
+        .btn-delete:hover { background: #c82333; }
 
         .delete-section {
             border-top: 1px solid #ddd;
@@ -161,9 +125,7 @@
         }
 
         /* Accesibilidad */
-        [aria-invalid="true"] {
-            border-color: #dc3545 !important;
-        }
+        [aria-invalid="true"] { border-color: #dc3545 !important; }
     </style>
 </head>
 
@@ -180,8 +142,7 @@
                     <!-- Nombre -->
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" required
-                            aria-required="true">
+                        <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" required aria-required="true">
                         <span class="error" id="error-name"></span>
                     </div>
                     <!-- Username -->
@@ -199,37 +160,33 @@
                     <!-- Edad -->
                     <div class="form-group">
                         <label for="edad">Edad</label>
-                        <input type="number" id="edad" name="edad" min="1" max="120" value="{{ Auth::user()->edad }}"
-                            required>
+                        <input type="number" id="edad" name="edad" min="1" max="120" value="{{ Auth::user()->edad }}" required>
                         <span class="error" id="error-edad"></span>
                     </div>
                     <!-- Contraseña actual (full width) -->
-                    <div class="form-group" style="grid-column: span 2;">
+                    <div class="form-group full-width">
                         <label for="current_password">Contraseña actual</label>
-                        <input type="password" id="current_password" name="current_password"
-                            placeholder="Ingresa tu contraseña actual" required aria-required="true">
+                        <input type="password" id="current_password" name="current_password" placeholder="Ingresa tu contraseña actual" required aria-required="true">
                         <span class="error" id="error-current"></span>
                     </div>
                     <!-- Nueva contraseña (full width) -->
-                    <div class="form-group" style="grid-column: span 2;">
+                    <div class="form-group full-width">
                         <label for="password">Nueva contraseña <small class="hint">(Opcional)</small></label>
-                        <input type="password" id="password" name="password"
-                            placeholder="Deja en blanco para no cambiarla">
+                        <input type="password" id="password" name="password" placeholder="Deja en blanco para no cambiarla">
                         <span class="hint">Mínimo 8 caracteres</span>
                         <span class="error" id="error-password"></span>
                     </div>
                     <!-- Confirmar contraseña (full width) -->
-                    <div class="form-group" style="grid-column: span 2;">
+                    <div class="form-group full-width">
                         <label for="password_confirmation">Confirmar nueva contraseña</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation"
-                            placeholder="Repite la nueva contraseña">
+                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Repite la nueva contraseña">
                         <span class="error" id="error-confirm"></span>
                     </div>
                 </div>
                 <br>
                 <button type="submit" class="btn-primary">Guardar Cambios</button>
             </form>
-            
+
             <div class="delete-section">
                 <h2 class="delete-title">Eliminar Cuenta</h2>
                 <p class="hint">Esta acción es irreversible.</p>
@@ -259,16 +216,13 @@
             function validateField(input, errorEl) {
                 let valid = true;
                 let msg = '';
-                if (input.required && !input.value.trim()) {
-                    valid = false;
-                    msg = 'Este campo es obligatorio';
-                }
+                if (input.required && !input.value.trim()) { valid = false; msg = 'Este campo es obligatorio'; }
                 if (valid && input.type === 'email') {
                     const re = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
                     if (!re.test(input.value)) { valid = false; msg = 'Formato de email inválido'; }
                 }
-                if (valid && input.id === 'password' && input.value) {
-                    if (input.value.length < 8) { valid = false; msg = 'Mínimo 8 caracteres'; }
+                if (valid && input.id === 'password' && input.value.length > 0 && input.value.length < 8) {
+                    valid = false; msg = 'Mínimo 8 caracteres';
                 }
                 if (valid && input.id === 'password_confirmation') {
                     const pw = document.getElementById('password').value;
