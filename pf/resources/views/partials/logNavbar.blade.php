@@ -290,14 +290,14 @@
                 <div class="user-dropdown">
                     @auth
                     <div class="user-avatar" id="userAvatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-</div>
+                </div>
                     @endauth
                     <div class="user-menu" id="userMenu">
                         <a href="/userProfile" class="user-menu-item">👤 Mi perfil</a>
                         <a href="/userProfile" class="user-menu-item">📝 Mis historias</a>
                         <div class="user-menu-divider"></div>
                         <a href="#" class="user-menu-item">⚙️ Configuración</a>
-                        <a href="#" class="user-menu-item">❓ Ayuda</a>
+                        <a href="/policies" class="user-menu-item">❓ Ayuda</a>
                         <div class="user-menu-divider"></div>
                         <form method="POST" action="/logout">
                             @csrf

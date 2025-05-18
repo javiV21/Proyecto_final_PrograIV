@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])
     ->name('index');
 
+// Policies
+Route::get('/policies', [HomeController::class, 'showPolicies'])
+    ->name('policies');
+
 // Registro
 Route::get('/signup', [UsuariosController::class, 'showSignupForm'])
     ->name('signup');

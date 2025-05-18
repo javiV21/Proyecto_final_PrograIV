@@ -405,7 +405,7 @@
                             </div>
                             <div class="action-item">
                                 <span class="comment-icon">💬</span>
-                                <span class="count">348</span>
+                                <span class="count">{{ $comentariosCount }}</span>
                             </div>
 
                         </div>

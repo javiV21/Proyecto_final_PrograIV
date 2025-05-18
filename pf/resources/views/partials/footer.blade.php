@@ -313,8 +313,8 @@
         <div class="footer-bottom">
             <p class="copyright">© 2025 PlotChat. Todos los derechos reservados.</p>
             <div class="legal-links">
-                <a href="#">Términos de servicio</a>
-                <a href="#">Política de privacidad</a>
+                <a href="/policies">Términos de servicio</a>
+                <a href="/policies">Política de privacidad</a>
             </div>
         </div>
     </footer>

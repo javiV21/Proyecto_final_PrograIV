@@ -561,9 +561,8 @@
         </div>
 
         <div class="footer-links">
-            <a href="#">Reglas de Plotchat</a>
-            <a href="#">Política de privacidad</a>
-            <a href="#">Acuerdo del usuario</a>
+            <a href="/policies">Reglas de Plotchat</a>
+            <a href="/policies">Política de privacidad</a>
         </div>
         <div class="copyright">
             PlotChat, inc. © 2025. Todos los derechos reservados.
