@@ -15,14 +15,12 @@ class HistoriasController extends Controller
      */
     public function index()
     {
-        // Obtener las historias mas recientes
-        // y cargar la relación con el usuario y la categoría
-        $historias = Historia::with(['user','categoria'])->latest()->get();
-        // Contar cantidad de comentarios que tiene cada historia
-        foreach ($historias as $historia) {
-            $historia->comentarios_count = Comentario::where('historia_id', $historia->id)->count();
-        }
-        
+        $historias = Historia::with(['user', 'categoria'])
+            ->withCount('comentarios')                                      // crea $h->comentarios_count
+            ->withSum('reacciones_historia as reacciones_count', 'reaccion') // crea $h->reacciones_count
+            ->latest()
+            ->get();
+
         return view('home', compact('historias'));
     }
 

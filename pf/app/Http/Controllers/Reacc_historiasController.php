@@ -15,8 +15,7 @@ class Reacc_historiasController extends Controller
      */
     public function index()
     {
-        $historias = Historia::with(['user'])->get();
-        return view('viewContent.index', compact('historias'));
+        //
     }
 
     /**
@@ -24,13 +23,35 @@ class Reacc_historiasController extends Controller
      */
     public function store(Request $request)
     {
+        // Validamos que venga historia_id y reaccion
         $data = $request->validate([
             'historia_id' => 'required|exists:historias,id',
+            'reaccion'    => 'required|in:1,-1',
         ]);
+
         $data['usuario_id'] = Auth::id();
 
-        Reaccion_historia::create($data);
-        return redirect()->route('historias.index')->with('success', 'Like.');
+        // Primero intentamos encontrar si ya había un voto
+        $reaccion = Reaccion_historia::firstOrNew([
+            'usuario_id' => $data['usuario_id'],
+            'historia_id'=> $data['historia_id'],
+        ]);
+
+        // Siempre actualizamos el valor de la reacción
+        $reaccion->reaccion = $data['reaccion'];
+        $reaccion->save();
+
+        return back(); // redirige a la misma página
+    }
+
+    public function update(Request $request, Reaccion_historia $reaccion_historia)
+    {
+        // Actualizar la reacción de una historia
+        $data = $request->validate([
+            'reaccion' => 'required|in:1,-1',
+        ]);
+        $reaccion_historia->update($data);
+        return redirect()->route('home');
     }
 
     /**
@@ -38,7 +59,8 @@ class Reacc_historiasController extends Controller
      */
     public function show(string $id)
     {
-        $historia = Historia::with(['user'])->findOrFail($id);
-        return view('viewContent.show', compact('historia'));
+        // Mostrar las reacciones de una historia en específico
+        $reacciones = Reaccion_historia::where('historia_id', $id)->get();
+        return view('showHistoria', compact('reacciones'));
     }
 }

@@ -487,16 +487,25 @@
                             {{ Str::limit($h->contenido, 500) }}
                         </div>
                     </div>
-
                     <div class="story-actions">
                         <div class="action-item">
-                            <button class="vote-btn">▲</button>
-                            <span class="count">1.2k</span>
-                            <button class="vote-btn">▼</button>
+                            <form method="POST" action="{{ route('reacc_historias.store') }}">
+                                @csrf
+                                <input type="hidden" name="historia_id" value="{{ $h->id }}">
+                                <input type="hidden" name="reaccion" value="1">
+                                <button class="vote-btn" id="positive-vote">▲</button>
+                            </form>
+                            <span class="count">{{ $h->reacciones_count }}</span>
+                            <form method="POST" action="{{ route('reacc_historias.store') }}">
+                                @csrf
+                                <input type="hidden" name="historia_id" value="{{ $h->id }}">
+                                <input type="hidden" name="reaccion" value="-1">
+                                <button class="vote-btn" id="negative-vote">▼</button>
+                            </form>
                         </div>
                         <div class="action-item">
                             <span class="comment-icon">💬</span>
-                            <span class="count">{{ $h->comentarios->count() }} comentarios</span>
+                            <span class="count">{{ $h->comentarios_count }} comentarios</span>
                         </div>
                     </div>
                 </article>

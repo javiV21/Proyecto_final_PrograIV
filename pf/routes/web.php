@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Reacc_historiasController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriasController;
@@ -53,6 +54,10 @@ Route::middleware('auth')->group(function () {
     // Ver historia
     Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
         ->name('historias.show');
+
+    // Votar historia
+    Route::post('/votar', [Reacc_historiasController::class, 'store'])->name('reacc_historias.store');
+
     // Crear comentario
     Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
         ->name('historias.show');
