@@ -8,7 +8,7 @@
     <style>
         /* Variables globales */
         :root {
-            --color-primary:rgb(129, 92, 78);
+            --color-primary: #ff6b35;
             --color-primary-hover: #e55a28;
             --color-secondary: #4ecdc4;
             --color-bg: #f7fff7;
