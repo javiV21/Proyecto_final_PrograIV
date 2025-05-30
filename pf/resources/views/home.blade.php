@@ -42,7 +42,7 @@
             z-index: 1002;
         }
 
-        /* Sidebar izquierda */
+/* Sidebar izquierda */
         .sidebar-left {
             width: 240px;
             background-color: white;
@@ -54,6 +54,7 @@
             overflow-y: auto;
             padding: 1rem;
             z-index: 100;
+            transition: transform 0.3s ease-in-out; /* Added for smooth mobile transition */
         }
 
         .sidebar-section {
@@ -78,7 +79,8 @@
         }
 
         .sidebar-menu a {
-            display: block;
+            display: flex; /* Changed to flex for better alignment with bullet */
+            align-items: center; /* Align items vertically */
             padding: 0.5rem;
             border-radius: 4px;
             color: var(--dark-color);
@@ -89,6 +91,7 @@
 
         .sidebar-menu a:hover {
             background-color: var(--gray-light);
+            color: var(--primary-color); /* Added hover color */
         }
 
         .sidebar-menu a.active {
@@ -102,6 +105,8 @@
             margin-right: 0.5rem;
             color: var(--primary-color);
             font-weight: bold;
+            font-size: 1.2em; /* Slightly larger bullet */
+            line-height: 1; /* Ensure bullet aligns well */
         }
 
         .divider {
@@ -110,6 +115,55 @@
             margin: 1rem 0;
         }
 
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none; /* Hidden by default for desktop */
+            position: fixed;
+            bottom: 1rem; /* Adjusted to bottom right */
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem; /* Larger icon */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background-color: #ff5a1f;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                margin-left: 0;
+                margin-right: 0;
+                padding-bottom: 4rem;
+            }
+
+            .sidebar-right {
+                display: none;
+            }
+
+            .sidebar-left {
+                transform: translateX(-100%);
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar-left.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-toggle {
+                display: flex; /* Show only on mobile */
+            }
+        }
         /* Contenido principal */
         .main-content {
             flex: 1;
@@ -387,36 +441,6 @@
                 display: none;
             }
 
-            .sidebar-left {
-                transform: translateX(-100%);
-                transition: var(--transition);
-                z-index: 999;
-                background-color: white;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
-            }
-
-            .mobile-menu-toggle {
-                display: flex;
-                position: fixed;
-                top: 4rem;
-                right: 1rem;
-                background-color: var(--primary-color);
-                color: white;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                align-items: center;
-                justify-content: center;
-                z-index: 1001;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-                cursor: pointer;
-            }
-
-            .sidebar-left.active {
-                transform: translateX(0);
-            }
-
         }
 
         @media (min-width: 993px) {
@@ -445,19 +469,17 @@
         <div class="sidebar-section">
             <h3 class="sidebar-title">Ver categorías</h3>
             <ul class="sidebar-menu">
-                <li><a href="#">Ve y descubre las categorías de contenido disponible</a></li>
+                <li><a href="{{ route('categorias.index') }}">Ve y descubre las categorías de contenido disponible</a></li>
             </ul>
         </div>
 
         <div class="divider"></div>
 
         <div class="sidebar-section">
-            <h3 class="sidebar-title">Comunidades</h3>
+            <h3 class="sidebar-title">Más</h3>
             <ul class="sidebar-menu">
                 <li><a href="/createPost">Crear una historia</a></li>
-                <li><a href="#">/AskPlotchat</a></li>
-                <li><a href="#">/confession</a></li>
-                <li><a href="#">/esConversacion</a></li>
+                <li><a href="{{ route('user.profile') }}">Ve tu perfil</a></li>
             </ul>
         </div>
     </aside>
@@ -517,34 +539,17 @@
 
     <!-- Sidebar derecha -->
     <aside class="sidebar-right" id="sidebarRight">
-        <h3 class="sidebar-title">Mejores Comunidades</h3>
+        <h3 class="sidebar-title">Mejores hsitorias</h3>
 
         <div class="community-card">
             <div class="community-header">
                 <span>!</span>
-                <span class="community-name">PlotchatPregunta</span>
+                <span class="community-name">Ve las categorías</span>
             </div>
-            <div class="community-meta">hace 4 d • Sugerido para ti</div>
-            <button class="join-btn">Unirse</button>
+            <div class="community-meta">Sugerido para ti</div>
+            <button class="join-btn">Vamos  a ver</button>
             <div class="community-description">
-                Para ex's visitantes de la deep web cuál fue lo más turbio que vieron?
-            </div>
-            <div class="post-stats">
-                <span>24 comentarios</span>
-                <span>239 votos</span>
-                <span>Compartir</span>
-            </div>
-        </div>
-
-        <div class="community-card">
-            <div class="community-header">
-                <span>!</span>
-                <span class="community-name">GT46</span>
-            </div>
-            <div class="community-meta">hace 3 d • Popular en PlotChat ahora mismo</div>
-            <button class="join-btn">Unirse</button>
-            <div class="community-description">
-                The recent post from "Rockstar Employee"
+                Ve contenido de las categorías que más te interesan. ¡Descubre nuevas historias y comparte las tuyas!
             </div>
         </div>
 
@@ -559,8 +564,7 @@
 
     <!-- Menús móviles -->
     <div class="mobile-menu-toggle" id="mobileMenuToggle"></div>
-    <script>
-
+<script>
         // Animación al pasar el mouse sobre las tarjetas
         document.querySelectorAll('.story-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -572,49 +576,63 @@
                 card.style.boxShadow = 'none';
             });
         });
-        // Clikear historia y redirigir a la página de historia
-        document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.story-card.clickable').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', () => {
-            window.location.href = card.dataset.url;
-            });
-        });
-        });
 
-        // Mostrar/ocultar sidebar izquierda en móvil
-        document.addEventListener('DOMContentLoaded', function () {
+        // Clickear historia y redirigir a la página de historia
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.story-card.clickable').forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', (event) => {
+                    // Prevent navigation if an action button (like vote) was clicked
+                    if (event.target.closest('.vote-btn') || event.target.closest('form')) {
+                        return;
+                    }
+                    window.location.href = card.dataset.url;
+                });
+            });
+
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebarLeft = document.getElementById('sidebarLeft');
+            const joinBtn = document.querySelector('.join-btn');
+
+            if (joinBtn) {
+                joinBtn.addEventListener('click', function () {
+                    window.location.href = '/categorias';
+                });
+            }
 
             if (mobileMenuToggle && sidebarLeft) {
-                mobileMenuToggle.addEventListener('click', function () {
+                mobileMenuToggle.addEventListener('click', function (event) {
+                    event.stopPropagation(); // Prevent this click from closing the sidebar immediately
                     sidebarLeft.classList.toggle('active');
                 });
             }
 
-            // Cerrar menús al hacer clic fuera
+            // Close sidebar when clicking outside of it on mobile
             document.addEventListener('click', function (e) {
                 if (window.innerWidth <= 992) {
-                    if (!sidebarLeft.contains(e.target) && e.target !== mobileMenuToggle) {
+                    if (sidebarLeft.classList.contains('active') && !sidebarLeft.contains(e.target) && e.target !== mobileMenuToggle) {
                         sidebarLeft.classList.remove('active');
                     }
                 }
             });
 
-            // Smooth scroll para evitar saltos bruscos
+            // Smooth scroll for sidebar links (if they target sections on the same page)
             document.querySelectorAll('.sidebar-menu a').forEach(link => {
                 link.addEventListener('click', function (e) {
                     if (window.innerWidth <= 992) {
-                        e.preventDefault();
-                        const target = document.querySelector(this.getAttribute('href'));
-                        if (target) {
-                            window.scrollTo({
-                                top: target.offsetTop - 20,
-                                behavior: 'smooth'
-                            });
+                        // Check if the link is an internal anchor
+                        const href = this.getAttribute('href');
+                        if (href && href.startsWith('#')) {
+                            e.preventDefault();
+                            const target = document.querySelector(href);
+                            if (target) {
+                                window.scrollTo({
+                                    top: target.offsetTop - 20, // Adjust offset as needed
+                                    behavior: 'smooth'
+                                });
+                            }
                         }
-                        sidebarLeft.classList.remove('active');
+                        sidebarLeft.classList.remove('active'); // Always close sidebar after clicking a link
                     }
                 });
             });

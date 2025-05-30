@@ -21,9 +21,4 @@ class Comentario extends Model
     {
         return $this->belongsTo(Historia::class, 'historia_id');
     }
-
-    public function reacciones_comentario()
-    {
-        return $this->hasMany(Reaccion_comentario::class);
-    }
 }

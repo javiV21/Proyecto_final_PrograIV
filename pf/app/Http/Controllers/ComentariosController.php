@@ -31,7 +31,7 @@ class ComentariosController extends Controller
     public function store(Request $request, Historia $historia)
     {
         $data = $request->validate([
-            'contenido' => 'required|string|max:255',
+            'contenido' => 'required|string',
         ]);
         $data['usuario_id'] = Auth::id();
         $data['historia_id'] = $historia->id;
@@ -64,7 +64,7 @@ class ComentariosController extends Controller
      */
     public function update(Request $request, Comentario $comentario)
     {
-        $data = $request->validate(['contenido' => 'required|string|max:255']);
+        $data = $request->validate(['contenido' => 'required|string']);
         $comentario->update($data);
 
         return redirect()->route('user.profile')->with('success', 'Comentario actualizado con éxito.');

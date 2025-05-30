@@ -35,6 +35,10 @@ Route::get('/signup', [UsuariosController::class, 'showSignupForm'])
     ->name('signup');
 Route::post('/signup', [UsuariosController::class, 'register'])
     ->name('signup.submit');
+// Verificación de cuenta
+Route::get ('/verify',       [UsuariosController::class,'showVerifyForm'])->name('verify.view');
+Route::post('/verify',       [UsuariosController::class,'verifyAccount'])->name('verify.submit');
+Route::post('/verify/resend',[UsuariosController::class,'resendToken'])->name('verify.resend');
 
 // Login
 Route::get('/login', [UsuariosController::class, 'showLoginForm'])
@@ -79,6 +83,13 @@ Route::middleware('auth')->group(function () {
     // Eliminar historia
     Route::delete('/historias/{historia}', [HistoriasController::class, 'destroy'])
         ->name('historias.destroy');
+
+    // Listar historias por categoría
+    Route::get('/categorias/{categoria?}', [CategoriasController::class, 'index'])
+        ->name('categorias.index');
+
+    Route::get('/categorias/{categoria}/historias', [CategoriasController::class, 'historiasAjax'])
+        ->name('categorias.historias.ajax');
 
     /*
     |----------------------------------

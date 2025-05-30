@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reaccion_comentarios', function (Blueprint $table) {
+        Schema::create('verification_tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('comentario_id')->constrained('comentarios')->onDelete('cascade');
-            $table->integer('reaccion');
-            $table->timestamps();
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+            $table->string('token', 6)->unique();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reaccion_comentarios');
+        Schema::dropIfExists('verification_tokens');
     }
 };

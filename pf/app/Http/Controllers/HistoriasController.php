@@ -60,6 +60,7 @@ class HistoriasController extends Controller
         return view('showHistoria', compact('historia'));
     }
 
+
     // Editar una historia
     public function edit(Historia $historia)
     {

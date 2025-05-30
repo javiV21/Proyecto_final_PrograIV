@@ -67,39 +67,6 @@
             content: "✍️";
         }
 
-        .search-bar {
-            flex: 1;
-            max-width: 600px;
-            margin: 0 1.5rem;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 0.6rem 1rem 0.6rem 2.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            background-color: var(--gray-light);
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        .search-bar input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
-            background-color: white;
-        }
-
-        .search-bar::before {
-            content: "🔍";
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0.5;
-        }
-
         .nav-buttons {
             display: flex;
             align-items: center;
@@ -235,42 +202,6 @@
             .mobile-menu-toggle {
                 display: block;
             }
-            
-            .mobile-search-toggle {
-                display: block;
-            }
-            
-            .mobile-search {
-                position: fixed;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                padding: 1rem;
-                background-color: white;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                display: none;
-                z-index: 999;
-            }
-            
-            .mobile-search.active {
-                display: block;
-            }
-            
-            .mobile-search input {
-                width: 100%;
-                padding: 0.8rem 1rem 0.8rem 2.5rem;
-                border-radius: 4px;
-                border: 1px solid var(--border-color);
-            }
-            
-            .mobile-search::before {
-                content: "🔍";
-                position: absolute;
-                left: 1.8rem;
-                top: 50%;
-                transform: translateY(-50%);
-                opacity: 0.5;
-            }
         }
     </style>
 </head>
@@ -279,11 +210,6 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="/home" class="logo">PlotChat</a>
-                        
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar en PlotChat">
-            </div>
-            
             <div class="nav-buttons">
                 <button class="nav-button active" title="Inicio" id="btnHome">🏠</button>
                 <button class="nav-button create" title="Crear" id="btnCrear">+ Crear</button>
