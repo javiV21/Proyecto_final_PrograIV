@@ -21,15 +21,8 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
 | Rutas públicas (landing y auth)
 |----------------------------------
 */
-
-// Group routes that should only be accessible to guests (non-authenticated users)
 Route::middleware('guest')->group(function () {
     // Landing / info general
-    // If you want the landing page to be accessible only to guests,
-    // otherwise, if it's a general landing page that redirects logged-in users,
-    // you might handle that redirection logic in the HomeController@index method.
-    // For now, assuming it's a public landing page that logged-in users can also see,
-    // it remains outside the 'guest' middleware group.
     Route::get('/', [HomeController::class, 'index'])
         ->name('index');
 
