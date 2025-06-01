@@ -44,7 +44,7 @@ Route::middleware('guest')->group(function () {
         ->name('login.submit');
 });
 
-// Policies (usually public for everyone)
+// Policies
 Route::get('/policies', [HomeController::class, 'showPolicies'])
     ->name('policies');
 
