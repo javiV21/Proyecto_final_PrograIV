@@ -7,7 +7,7 @@ use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\HistoriasController;
 use App\Http\Controllers\ComentariosController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NewsletterController; // Asegúrate de que solo esté una vez
+use App\Http\Controllers\NewsletterController;
 
 //----------------------------------
 // Rutas para el envío de correos
@@ -22,29 +22,39 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
 |----------------------------------
 */
 
-// Landing / info general
-Route::get('/', [HomeController::class, 'index'])
-    ->name('index');
+// Group routes that should only be accessible to guests (non-authenticated users)
+Route::middleware('guest')->group(function () {
+    // Landing / info general
+    // If you want the landing page to be accessible only to guests,
+    // otherwise, if it's a general landing page that redirects logged-in users,
+    // you might handle that redirection logic in the HomeController@index method.
+    // For now, assuming it's a public landing page that logged-in users can also see,
+    // it remains outside the 'guest' middleware group.
+    Route::get('/', [HomeController::class, 'index'])
+        ->name('index');
 
-// Policies
+    // Registro
+    Route::get('/signup', [UsuariosController::class, 'showSignupForm'])
+        ->name('signup');
+    Route::post('/signup', [UsuariosController::class, 'register'])
+        ->name('signup.submit');
+
+    // Verificación de cuenta
+    Route::get ('/verify',       [UsuariosController::class,'showVerifyForm'])->name('verify.view');
+    Route::post('/verify',       [UsuariosController::class,'verifyAccount'])->name('verify.submit');
+    Route::post('/verify/resend',[UsuariosController::class,'resendToken'])->name('verify.resend');
+
+    // Login
+    Route::get('/login', [UsuariosController::class, 'showLoginForm'])
+        ->name('login');
+    Route::post('/login', [UsuariosController::class, 'login'])
+        ->name('login.submit');
+});
+
+// Policies (usually public for everyone)
 Route::get('/policies', [HomeController::class, 'showPolicies'])
     ->name('policies');
 
-// Registro
-Route::get('/signup', [UsuariosController::class, 'showSignupForm'])
-    ->name('signup');
-Route::post('/signup', [UsuariosController::class, 'register'])
-    ->name('signup.submit');
-// Verificación de cuenta
-Route::get ('/verify',       [UsuariosController::class,'showVerifyForm'])->name('verify.view');
-Route::post('/verify',       [UsuariosController::class,'verifyAccount'])->name('verify.submit');
-Route::post('/verify/resend',[UsuariosController::class,'resendToken'])->name('verify.resend');
-
-// Login
-Route::get('/login', [UsuariosController::class, 'showLoginForm'])
-    ->name('login');
-Route::post('/login', [UsuariosController::class, 'login'])
-    ->name('login.submit');
 
 /*
 |----------------------------------
@@ -97,8 +107,6 @@ Route::middleware('auth')->group(function () {
     |----------------------------------
     */
     // Crear comentario
-    Route::get('/historias/{historia}', [HistoriasController::class, 'show'])
-        ->name('historias.show');
     Route::post('/historias/{historia}/comentarios', [ComentariosController::class, 'store'])
         ->name('comentarios.store');
     // Editar comentario
@@ -125,7 +133,7 @@ Route::middleware('auth')->group(function () {
         ->name('user.editForm');
     
     // Actualizar perfil
-    Route::put('/editProfile/{id}', [UsuariosController::class, 'update'])->name('user.update');   
+    Route::put('/editProfile/{id}', [UsuariosController::class, 'update'])->name('user.update');  
     // Eliminar perfil
     Route::delete('/editProfile/{id}', [UsuariosController::class, 'destroy'])->name('user.destroy');
     
