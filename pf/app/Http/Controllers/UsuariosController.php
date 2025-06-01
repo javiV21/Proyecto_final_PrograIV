@@ -94,6 +94,7 @@ class UsuariosController extends Controller
         // 4) Activar usuario y borrar el token
         $user = User::findOrFail($userId);
         $user->update(['is_active' => true]);
+        $user->email_verified_at = now(); // Marcar como verificado
         $record->delete();
 
         // 5) Enviar correo de bienvenida
