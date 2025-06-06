@@ -19,7 +19,7 @@ class VerifyUser extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user, string $token)
+    public function __construct($user, $token)
     {
         $this->user  = $user;
         $this->token = $token;
