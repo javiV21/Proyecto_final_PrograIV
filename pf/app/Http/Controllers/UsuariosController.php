@@ -272,9 +272,9 @@ class UsuariosController extends Controller
                 unset($data['password']);
             }
             // que solicite la contraseña actual
-            if ($request->filled('current_password')) {
-                if (!Hash::check($request->input('current_password'), $user->password)) {
-                    return back()->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+            if ($request->filled('error')) {
+                if (!Hash::check($request->input('error'), $user->password)) {
+                    return back()->withErrors(['error' => 'La contraseña actual no es correcta.']);
                 }
             }
 
