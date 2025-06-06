@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,12 @@
             --dark-color: #292f36;
             --light-color: #f7fff7;
             --hover-color: #f8f9fa;
+            --error-color: #EF4444;
+            --border-radius: 8px;
+            /* Tailwind red-500 */
+            --success-color: #22C55E;
+            /* Tailwind green-500 */
+            --border-radius: 8px;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -32,7 +39,7 @@
         /* Estilos del fondo decorativo */
         .background-container {
             flex: 1;
-            background: linear-gradient(135deg, rgba(255,107,53,0.1) 0%, rgba(78,205,196,0.1) 100%);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
             position: relative;
             display: flex;
             align-items: center;
@@ -49,7 +56,7 @@
             margin-right: auto;
             padding-left: 2rem;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .background-content h1 {
@@ -79,6 +86,35 @@
             color: var(--secondary-color);
             font-weight: bold;
             font-size: 1.2rem;
+        }
+
+        .feedback-message {
+            text-align: center;
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .feedback-message.success {
+            color: var(--success-color);
+            background-color: rgba(34, 197, 94, 0.1);
+            /* Light green background */
+            border: 1px solid var(--success-color);
+        }
+
+        .feedback-message.error {
+            color: var(--error-color);
+            background-color: rgba(239, 68, 68, 0.1) border: 1px solid var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85em;
+            margin-top: -10px;
+            margin-bottom: 6px;
+            display: block;
         }
 
         /* Estilos del formulario de registro */
@@ -239,8 +275,15 @@
 
         /* Animaciones */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .register-container {
@@ -293,12 +336,13 @@
         }
     </style>
 </head>
+
 <body>
     <div class="background-container">
         <div class="background-content">
             <h1 style="color: #ff5a1f;">Únete a nuestra comunidad</h1>
             <p>Regístrate en PlotChat y comienza a compartir tus historias con miles de lectores apasionados.</p>
-            
+
             <ul class="benefits-list">
                 <li>Publica tus relatos y recibe feedback</li>
                 <li>Conecta con otros escritores y lectores</li>
@@ -315,26 +359,38 @@
             <h2>Crea tu cuenta</h2>
             <p>Comienza tu viaje literario hoy mismo</p>
         </div>
-
+        @if(session('status'))
+            <p class="feedback-message success">
+                {{ session('status') }}
+            </p>
+        @endif
+        @if(session('error'))
+            <p class="feedback-message error">
+                {{ session('error') }}
+            </p>
+        @endif
         <form id="registerForm" method="POST" action="{{ route('signup.submit') }}">
             @csrf
             <div class="form-group">
                 <label for="name">Nombre completo</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre" value="{{ old('name') }}" required>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre"
+                    value="{{ old('name') }}" required>
                 @if ($errors->has('name'))
                     <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
             </div>
             <div class="form-group">
                 <label for="username">Nombre de usuario</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="ejemplo123" value="{{ old('username') }}" required>
+                <input type="text" id="username" name="username" class="form-control" placeholder="ejemplo123"
+                    value="{{ old('username') }}" required>
                 @if ($errors->has('username'))
                     <span class="text-danger">{{ $errors->first('username') }}</span>
                 @endif
             </div>
             <div class="forms-group">
                 <label for="edad">Ingrese su edad</label>
-                <input type="number" id="edad" name="edad" class="form-control" placeholder="18" value="{{ old('edad') }}" required>
+                <input type="number" id="edad" name="edad" class="form-control" placeholder="18"
+                    value="{{ old('edad') }}" required>
                 @if ($errors->has('edad'))
                     <span class="text-danger">{{ $errors->first('edad') }}</span>
                 @endif
@@ -342,7 +398,8 @@
 
             <div class="form-group">
                 <label for="email">Correo electrónico</label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="tucorreo@ejemplo.com" value="{{ old('email') }}" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="tucorreo@ejemplo.com"
+                    value="{{ old('email') }}" required>
                 @if ($errors->has('email'))
                     <span class="text-danger">{{ $errors->first('email') }}</span>
                 @endif
@@ -350,7 +407,8 @@
 
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••"
+                    required>
                 @if ($errors->has('password'))
                     <span class="text-danger">{{ $errors->first('password') }}</span>
                 @endif
@@ -371,7 +429,8 @@
 
             <div class="form-group">
                 <label for="confirmPassword">Confirmar contraseña</label>
-                <input type="password" id="confirmPassword" name="password_confirmation" class="form-control" placeholder="••••••••" required>
+                <input type="password" id="confirmPassword" name="password_confirmation" class="form-control"
+                    placeholder="••••••••" required>
                 @if ($errors->has('password_confirmation'))
                     <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                 @endif
@@ -391,7 +450,7 @@
         const confirmPassword = document.getElementById('confirmPassword');
         const passwordRequirements = document.getElementById('passwordRequirements');
 
-        togglePassword.addEventListener('click', function() {
+        togglePassword.addEventListener('click', function () {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
             confirmPassword.setAttribute('type', type);
@@ -399,32 +458,32 @@
         });
 
         // Validación de contraseña en tiempo real
-        password.addEventListener('input', function() {
+        password.addEventListener('input', function () {
             const value = this.value;
             const strengthBar = document.getElementById('passwordStrengthBar');
-            
+
             // Verificar requisitos
             const hasLength = value.length >= 8;
             const hasUppercase = /[A-Z]/.test(value);
             const hasNumber = /[0-9]/.test(value);
             const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-            
+
             // Actualizar indicadores visuales
             document.getElementById('req-length').classList.toggle('valid', hasLength);
             document.getElementById('req-uppercase').classList.toggle('valid', hasUppercase);
             document.getElementById('req-number').classList.toggle('valid', hasNumber);
             document.getElementById('req-special').classList.toggle('valid', hasSpecial);
-            
+
             // Calcular fortaleza (simple)
             let strength = 0;
             if (hasLength) strength += 25;
             if (hasUppercase) strength += 25;
             if (hasNumber) strength += 25;
             if (hasSpecial) strength += 25;
-            
+
             // Actualizar barra
             strengthBar.style.width = strength + '%';
-            
+
             // Cambiar color según fortaleza
             if (strength < 50) {
                 strengthBar.style.backgroundColor = '#ff5252';
@@ -436,7 +495,7 @@
         });
 
         const registerForm = document.getElementById('registerForm');
-        registerForm.addEventListener('submit', function(e) {
+        registerForm.addEventListener('submit', function (e) {
             const name = document.getElementById('name').value;
             const username = document.getElementById('username').value;
             const edad = document.getElementById('edad').value;
@@ -448,7 +507,7 @@
                 alert('Por favor completa todos los campos');
                 return;
             }
-            
+
             if (password !== confirmPassword) {
                 alert('Las contraseñas no coinciden');
                 return;
@@ -466,4 +525,5 @@
         });
     </script>
 </body>
+
 </html>

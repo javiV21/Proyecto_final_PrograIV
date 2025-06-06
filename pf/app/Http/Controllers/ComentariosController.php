@@ -13,16 +13,16 @@ class ComentariosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        /*$comentarios = Comentario::with(['historia', 'user'])->get();
-        return view('showHistoria', compact('comentarios'));*/
-    }
 
     public function create()
     {
-        $historias = Historia::orderBy('id')->get();
-        return view('viewcContent.create', compact('historias'));
+        try{
+            $historias = Historia::orderBy('id')->get();
+            return view('viewcContent.create', compact('historias'));            
+        } catch (\Exception $e) {
+            \Log::error('Error al obtener las historias: ' . $e->getMessage());
+            return redirect()->route('home')->with('error', 'Error al cargar las historias.');
+        }
     }
 
     /**
@@ -30,16 +30,23 @@ class ComentariosController extends Controller
      */
     public function store(Request $request, Historia $historia)
     {
-        $data = $request->validate([
-            'contenido' => 'required|string',
-        ]);
-        $data['usuario_id'] = Auth::id();
-        $data['historia_id'] = $historia->id;
+        try{
+            $data = $request->validate([
+                'contenido' => 'required|string',
+            ]);
+            $data['usuario_id'] = Auth::id();
+            $data['historia_id'] = $historia->id;
 
-        Comentario::create($data);
-        return redirect()
-            ->route('historias.show', ['historia' => $historia->id])
-            ->with('success', 'Comentario creado con éxito.');
+            Comentario::create($data);
+            return redirect()
+                ->route('historias.show', ['historia' => $historia->id])
+                ->with('success', 'Comentario creado con éxito.');            
+        } catch (\Exception $e) {
+            \Log::error('Error al crear el comentario: ' . $e->getMessage());
+            return redirect()
+                ->route('historias.show', ['historia' => $historia->id])
+                ->with('error', 'Error al crear el comentario.');
+        }
     }
 
     /**
@@ -56,7 +63,12 @@ class ComentariosController extends Controller
      */
     public function edit(Comentario $comentario)
     {
-        return view('editComentarios', compact('comentario'));
+        try{
+            return view('editComentarios', compact('comentario'));
+        } catch (\Exception $e) {
+            \Log::error('Error al cargar el formulario de edición: ' . $e->getMessage());
+            return redirect()->route('user.profile')->with('error', 'Error al cargar el comentario para editar.');
+        }
     }
 
     /**
@@ -64,19 +76,30 @@ class ComentariosController extends Controller
      */
     public function update(Request $request, Comentario $comentario)
     {
-        $data = $request->validate(['contenido' => 'required|string']);
-        $comentario->update($data);
+        try{
+            $data = $request->validate(['contenido' => 'required|string']);
+            $comentario->update($data);
 
-        return redirect()->route('user.profile')->with('success', 'Comentario actualizado con éxito.');
+            return redirect()->route('user.profile')->with('success', 'Comentario actualizado con éxito.');  
+        } catch (\Exception $e) {
+            \Log::error('Error al actualizar el comentario: ' . $e->getMessage());
+            return redirect()->route('user.profile')->with('error', 'Error al actualizar el comentario.');
+        }
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Comentario $comentario)
     {
-        $comentario->delete();
+        try{
+            $comentario->delete();
 
-        return redirect()->route('user.profile')
-                        ->with('success', 'Comentario eliminado con éxito.');
+            return redirect()->route('user.profile')
+                            ->with('success', 'Comentario eliminado con éxito.');
+        } catch (\Exception $e) {
+            \Log::error('Error al eliminar el comentario: ' . $e->getMessage());
+            return redirect()->route('user.profile')
+                            ->with('error', 'Error al eliminar el comentario.');
+        }
     }    
 }

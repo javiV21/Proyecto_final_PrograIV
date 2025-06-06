@@ -15,6 +15,9 @@
             --gray-medium: #6c757d;
             --gray-dark: #495057;
             --border-color: #e0e0e0;
+            --error-color: #EF4444; /* Tailwind red-500 */
+            --success-color: #22C55E; /* Tailwind green-500 */
+            --border-radius: 8px; /* General border radius */
             --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             --transition: all 0.3s ease;
         }
@@ -42,7 +45,36 @@
             z-index: 1002;
         }
 
-/* Sidebar izquierda */
+        .feedback-message {
+            text-align: center;
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .feedback-message.success {
+            color: var(--success-color);
+            background-color: rgba(34, 197, 94, 0.1); /* Light green background */
+            border: 1px solid var(--success-color);
+        }
+
+        .feedback-message.error {
+            color: var(--error-color);
+            background-color: rgba(239, 68, 68, 0.1)
+            border: 1px solid var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85em;
+            margin-top: -10px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* Sidebar izquierda */
         .sidebar-left {
             width: 240px;
             background-color: white;
@@ -487,6 +519,16 @@
     <!-- Contenido principal -->
     <main class="main-content">
         <div class="posts-container">
+            @if(session('status'))
+                <p class="feedback-message success">
+                    {{ session('status') }}
+                </p>
+            @endif
+            @if(session('error'))
+                <p class="feedback-message error">
+                    {{ session('error') }}
+                </p>
+            @endif
             @forelse($historias as $h)
                 <article class="story-card clickable" data-url="{{ route('historias.show', $h) }}">
                     <div class="story-header">

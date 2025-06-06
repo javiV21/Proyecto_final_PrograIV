@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Únete a nuestra comunidad</title>
     <style>
+        :root {
+            --error-color: #EF4444; /* Tailwind red-500 */
+            --success-color: #22C55E; /* Tailwind green-500 */
+            --border-radius: 8px; /* General border radius */
+        }
         * {
             margin: 0;
             padding: 0;
@@ -125,6 +130,34 @@
         .feature-desc {
             color: #666;
         }
+        .feedback-message {
+            text-align: center;
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .feedback-message.success {
+            color: var(--success-color);
+            background-color: rgba(34, 197, 94, 0.1); /* Light green background */
+            border: 1px solid var(--success-color);
+        }
+
+        .feedback-message.error {
+            color: var(--error-color);
+            background-color: rgba(239, 68, 68, 0.1)
+            border: 1px solid var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85em;
+            margin-top: -10px;
+            margin-bottom: 6px;
+            display: block;
+        }
         
         @media (max-width: 768px) {
             h1 {
@@ -154,6 +187,16 @@
     <header>
         @include('partials.navbar')
     </header>
+            @if(session('status'))
+                <p class="feedback-message success">
+                    {{ session('status') }}
+                </p>
+            @endif
+            @if(session('error'))
+                <p class="feedback-message error">
+                    {{ session('error') }}
+                </p>
+            @endif
     <section class="hero">
         <div class="container">
             <h1>Únete a nuestra comunidad</h1>

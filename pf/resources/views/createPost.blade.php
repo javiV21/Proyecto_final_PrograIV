@@ -14,6 +14,9 @@
             --border-color: #e0e0e0;
             --bg-color: #ffffff;
             --text-secondary: #6c757d;
+            --error-color: #EF4444; /* Tailwind red-500 */
+            --success-color: #22C55E; /* Tailwind green-500 */
+            --border-radius: 8px;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.2s ease;
@@ -244,6 +247,35 @@
             min-height: 200px;
         }
 
+        .feedback-message {
+            text-align: center;
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .feedback-message.success {
+            color: var(--success-color);
+            background-color: rgba(34, 197, 94, 0.1);
+            /* Light green background */
+            border: 1px solid var(--success-color);
+        }
+
+        .feedback-message.error {
+            color: var(--error-color);
+            background-color: rgba(239, 68, 68, 0.1) border: 1px solid var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85em;
+            margin-top: -10px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
         @media (max-width: 1200px) {
             .create-post-container {
                 grid-template-columns: 1fr;
@@ -288,16 +320,17 @@
     <header>
         @include('partials.logNavbar')
     </header>
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-        @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-        </ul>
-    </div>
+    @if(session('status'))
+        <p class="feedback-message success">
+            {{ session('status') }}
+        </p>
     @endif
-    <form method="POST" action="{{ route('historias.store') }}"" id="createPostForm">
+    @if(session('error'))
+        <p class="feedback-message error">
+            {{ session('error') }}
+        </p>
+    @endif
+    <form method="POST" action="{{ route('historias.store') }}"" id=" createPostForm">
         @csrf
         <div class="create-post-container">
             <div class="main-editor">
@@ -313,16 +346,14 @@
                 <select class="community-selector" name="categoria_id" id="categoria_id" required>
                     <option value="">Seleccionar Categoría</option>
                     @foreach($categorias as $cat)
-                        <option
-                        value="{{ $cat->id }}"
-                        {{ old('categoria_id') == $cat->id ? 'selected' : '' }}
-                        >
-                        {{ $cat->nombre }}
+                        <option value="{{ $cat->id }}" {{ old('categoria_id') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->nombre }}
                         </option>
                     @endforeach
                 </select>
 
-                <input type="text" name="titulo" class="title-input" placeholder="Escribe un título*" maxlength="300" value="{{ old('titulo') }}">
+                <input type="text" name="titulo" class="title-input" placeholder="Escribe un título*" maxlength="300"
+                    value="{{ old('titulo') }}">
                 <div class="char-counter"><span id="charCount">0</span>/100</div>
 
                 <div class="editor-toolbar">
@@ -343,7 +374,8 @@
                     </button>
                 </div>
 
-                <textarea class="post-editor" name="contenido" placeholder="Cuenta tu historia...">{{ old('contenido') }}</textarea>
+                <textarea class="post-editor" name="contenido"
+                    placeholder="Cuenta tu historia...">{{ old('contenido') }}</textarea>
 
                 <div class="action-buttons">
 
