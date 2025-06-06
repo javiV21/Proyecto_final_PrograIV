@@ -198,11 +198,6 @@
         @if(session('status'))
             <p class="alert alert-success">{{ session('status') }}</p>
         @endif
-        @if(session('status'))
-            <p class="feedback-message success">
-                {{ session('status') }}
-            </p>
-        @endif
         @if(session('error'))
             <p class="feedback-message error">
                 {{ session('error') }}

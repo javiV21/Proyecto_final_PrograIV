@@ -60,12 +60,6 @@ class UsuariosController extends Controller
                             ->with('status', 'Te hemos enviado un código de verificación al correo.');
         } catch(\Exception $e) {
             return back()->withErrors(['error' => 'Error al registrar el usuario. Por favor, inténtalo de nuevo.']);
-        } catch(\Illuminate\Database\QueryException $e) {
-            // Manejo de errores de base de datos, como duplicados
-            return back()->withErrors(['error' => 'Error al registrar el usuario. Verifica los datos ingresados.']);
-        } catch(\Throwable $e) {
-            // Manejo de errores generales
-            return back()->withErrors(['error' => 'Error inesperado. Por favor, inténtalo de nuevo.']);
         }
     }
 
@@ -73,12 +67,9 @@ class UsuariosController extends Controller
     public function showVerifyForm()
     {
         try{
-            // Verificar si el usuario ya está registrado
-            if (! session()->has('verify_user_id')) {
-                return redirect()->route('signup.form')->withErrors(['error' => 'Debes registrarte primero.']);
-            }
+            return view('verifyAccount');
         } catch(\Exception $e) {
-            return redirect()->route('signup.form')->withErrors(['error' => 'Error al acceder al formulario de verificación.']);
+            return redirect()->route('signup')->withErrors(['error' => 'Error al acceder al formulario de verificación.']);
         }
     }
 
