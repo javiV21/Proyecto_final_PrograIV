@@ -133,8 +133,4 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [UsuariosController::class, 'logout'])
         ->name('logout');
-
-    // CRUD Categorías
-    Route::resource('categorias', CategoriasController::class)
-        ->except(['show']);
 });
