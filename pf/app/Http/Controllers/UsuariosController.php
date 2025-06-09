@@ -173,16 +173,16 @@ class UsuariosController extends Controller
 
                 return redirect()->intended(route('home'));
             }
+            // Si las credenciales no son válidas, regresar con error y mantener el input
+            return back()->withErrors(['error' => 'Credenciales incorrectas.'])->withInput($request->only('email', 'remember'));
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Error al iniciar sesión. Por favor, inténtalo de nuevo.']);
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Manejo de errores de base de datos, como duplicados
-            return back()->withErrors(['error' => 'Error al iniciar sesión. Verifica los datos ingresados.']);
+            return redirect()->route('login')->withErrors(['error' => 'Error al iniciar sesión. Por favor, inténtalo de nuevo.']);
         } catch (\Throwable $e) {
             // Manejo de errores generales
-            return back()->withErrors(['error' => 'Error inesperado. Por favor, inténtalo de nuevo.']);
+            return redirect()->route('login')->withErrors(['error' => 'Error inesperado. Por favor, inténtalo de nuevo.']);
         }
     }
+    
     public function logout(Request $request)
     {
         try{

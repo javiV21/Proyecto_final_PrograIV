@@ -360,6 +360,11 @@
                     {{ session('error') }}
                 </p>
             @endif
+            @if($errors->has('error'))
+                <p class="feedback-message error">
+                    {{ $errors->first('error') }}
+                </p>
+            @endif
         <form id="loginForm" method="POST" action="{{ route('login.submit') }}">
             @csrf
             <div class="form-group">
