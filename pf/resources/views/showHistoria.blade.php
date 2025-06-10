@@ -362,16 +362,5 @@
     <footer>
         @include('partials.footer')
     </footer>
-    <script>
-        addEventListener('DOMContentLoaded', function()
-    {
-        const backLink = document.querySelector('.back-link');
-        backLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            window.history.back();
-        });
-    })
-    </script>
 </body>
-
 </html>
